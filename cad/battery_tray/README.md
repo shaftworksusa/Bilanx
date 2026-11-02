@@ -1,42 +1,38 @@
-# PC680 battery tray + holder with S2000 EPS module mount
+# PC680 on its side: OEM S2000 tray cradle + clamp plate with EPS mount
 
 ![preview](preview.png)
 
-There are two printed parts. The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Run `pip install cadquery`, then `python3 battery_tray.py`, to regenerate `out/tray.stl`, `out/holder.stl` and `out/assembly.step`.
+The Odyssey PC680 (184.5 × 79 × 169.5 mm, AGM) lies **on its long side** in the **OEM S2000 battery tray**. Odyssey rates the PC680 for mounting in any orientation. On its side the footprint is 184.5 × 169.5 mm, the battery is 79 mm tall, and the terminals face sideways.
+
+The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Run `pip install cadquery`, then `python3 battery_tray.py`, to regenerate `out/cradle.stl`, `out/clamp_plate.stl` and `out/assembly.step`.
 
 | Part | Size (mm) | What it does |
 |---|---|---|
-| **Tray** | 232.5 × 120 × 40 | Pocket for the PC680 (184.5 × 79 × 169.5 spec, 1 mm clearance per side). It has four M8 slots on end flanges for mounting to the car, two rod bosses with captive M6 nut pockets, two lugs for the EPS plate, and drain holes. |
-| **Holder** | 175 × 127 × 170 | Top clamp bar across the battery lid, centred lengthwise so it clears the terminals. It joins a vertical plate on the +Y long side, and the **EPS module** bolts to that plate. |
+| **Cradle** | 194.5 × 179.5 × 32 | Battery pocket with 1 mm clearance and 20 mm walls. A plug ring underneath drops into the OEM tray pocket so the cradle can't slide. The terminal-side wall has a cut-out. Slots let the J-bolts pass through, and there are drain holes. |
+| **Clamp plate** | 244 × 130 × 16 | Sits on the battery's upturned side face, and the OEM J-bolts clamp it down. The **EPS module bolts on top**, using M5 bolts from below with heads recessed so they never touch the battery. |
 
-## ⚠️ Set the EPS hole pattern before printing
-`EPS_HOLES` in `battery_tray.py` is a **placeholder** (a 120 × 80 mm rectangle). To set it:
-1. Measure the centre-to-centre spacing of the EPS module's mounting tabs or holes.
-2. Enter them as (x, z) offsets from the plate centre.
-3. Re-run the script.
+## ⚠️ Measure and set before printing
+These values in `battery_tray.py` are **placeholders**:
+1. **`OEM_IN_X`, `OEM_IN_Y`:** the inside length and width of the OEM tray pocket.
+2. **`ROD_POS`:** where the OEM J-bolt hooks are, as (x, y) from the tray centre.
+3. **`EPS_HOLES`:** the EPS module's mounting hole spacing, as (x, y) from the plate centre.
 
-Each hole is a 10 mm horizontal slot, so small measurement errors are tolerated. If the module is bigger than about 175 × 160 mm, also raise `EPS_PLATE_X`.
+All J-bolt and EPS holes are slots, so small measurement errors are tolerated.
+
+**Fit check:** on its side the battery is 169.5 mm across, so the cradle is about 180 mm across. That's likely wider than the OEM pocket, which is sized for the stock battery. The plug still locates inside the pocket, and the cradle floor overhangs the tray's edges. Confirm the overhang clears the surrounding trunk panels.
 
 ## Hardware
-- **Hold-down:**
-  - 2 × M6 threaded rods, about 200 mm long. Steel carries the hold-down load, not printed plastic.
-  - 2 × M6 nuts in the tray's nut pockets, plus 2 × M6 nyloc nuts and large washers on top of the bar
-- **Tray to car:** 4 × M8 bolts with large washers
-- **EPS plate to tray:**
-  - 2 × M5 bolts
-  - 2 × M5 heat-set inserts (6.4 mm hole) in the tray lugs
-- **EPS module to plate:** 4 × M5 bolts with nyloc nuts and washers
-- **Optional:** 1–2 mm rubber or neoprene pad under the battery and under the clamp bar
+- **Hold-down:** OEM J-bolts, or M6 J-bolts or threaded rod, with nyloc nuts and large washers on top of the plate
+- **EPS module:** 4 × M5 bolts from under the plate, nyloc nuts, and 5–10 mm spacers for an air gap under the module
+- **Pads:** 1–2 mm rubber or neoprene pad between the plate and the battery, and under the battery
 
 ## Printing
-- **Material:** PA6-CF or PA12-CF (same filament as the intake), dried properly. Avoid PETG and PLA: a trunk or engine bay gets too hot, and a 7 kg battery creeps them.
-- **Strength settings:** 5–6 walls, 40%+ gyroid infill, 6 top/bottom layers
-- **Tray:** print floor-down.
-- **Holder:** print with the EPS plate's outer face on the bed. The top bar then stands up as a vertical fin.
+- **Material:** PA6-CF or PA12-CF, dried properly. Avoid PLA and PETG, which creep and soften under heat.
+- **Settings:** 5–6 walls, 40%+ gyroid infill, 6 top/bottom layers
+- **Cradle:** print floor-down.
+- **Clamp plate:** print battery side down. The counterbores are on that side and print fine as small recesses.
 
-## Before final install
-- **Bar height:** confirm the clamp bar sits flat on your battery's lid between the terminals. The bar's underside is at the spec height of 169.5 mm, so add a pad if your battery measures shorter.
-- **Rod tension:** tighten the rods until the battery can't move, then stop. The leg has a 2 mm gap above the boss on purpose, so the bar clamps the battery and not the frame.
-- **Heat:** keep the EPS module away from exhaust heat.
-- **Terminals:** cover both battery terminals and fuse the main positive cable close to the battery.
-- **Strength:** a printed tray is not crash-certified. Inspect it periodically for cracks or creep. For track use, consider making the tray in aluminium from the same dimensions.
+## Install notes
+- **Rod tension:** tighten the J-bolts until the battery can't move, then stop. Over-tightening bows the plate.
+- **Terminals:** they face sideways, so make sure the **positive terminal can't touch body metal**. Cover both terminals, and fuse the main positive cable close to the battery.
+- **Strength:** a printed cradle isn't crash-rated. Inspect it periodically for cracks or creep.

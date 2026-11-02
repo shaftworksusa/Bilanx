@@ -1,164 +1,125 @@
 """
-Odyssey PC680 battery tray + hold-down holder with Honda S2000 EPS module mount.
+Odyssey PC680 laid on its side on the OEM Honda S2000 battery tray.
+Two printed parts:
+  cradle.stl       locates the battery on the OEM tray (plug drops into the tray pocket)
+  clamp_plate.stl  hold-down plate on the battery's upturned side face; the EPS module bolts on top
 
-Parametric CadQuery model. Run:  python3 battery_tray.py
-Writes tray.stl, holder.stl, assembly.step to ./out/
+Parametric CadQuery model. Run:  python3 battery_tray.py   ->  ./out/
 
-Coordinates: X = battery length, Y = battery width, Z = up.
-Origin = centre of the tray floor's top surface (where the battery sits).
+Coordinates: X = battery length, Y = across the tray, Z = up.
+Origin = centre of the cradle floor's top surface.
 
-Load path: two M6 threaded rods (steel) run from captive nuts in the tray up
-through the top clamp bar. The rods carry the hold-down load, so the battery
-is never held by printed plastic in tension alone.
+Load path: the OEM J-bolts (or M6 rods) run from the OEM tray's hooks up through
+slots in the clamp plate. Steel carries the hold-down load; the plate only spreads it.
 """
 import os
 import cadquery as cq
 
-# ---------------- Battery: Odyssey PC680 (published spec) ----------------
-BAT_L, BAT_W, BAT_H = 184.5, 79.0, 169.5   # mm (7.27 x 3.11 x 6.67 in)
-CLEAR = 1.0                                # clearance per side in the pocket
+# ---------------- Battery: Odyssey PC680, lying on a long side ----------------
+# Spec 184.5 L x 79 W x 169.5 H. On its side: footprint L x H, height W.
+BAT_X, BAT_Y, BAT_Z = 184.5, 169.5, 79.0
+TERMINAL_SIDE = +1     # terminals face +Y (the cradle wall on that side gets a cut-out)
+CLEAR = 1.0
 
-# ---------------- EPS module mount — MEASURE AND SET THESE ----------------
-# Centre-to-centre spacing of the EPS module's mounting holes / tabs,
-# as (x, z) offsets from the plate centre. Placeholder rectangle until measured.
-EPS_HOLES = [(-60.0, -40.0), (60.0, -40.0), (-60.0, 40.0), (60.0, 40.0)]
-EPS_SLOT = 10.0       # slot length in X for each hole (tolerance for measurement error)
-EPS_BOLT_D = 5.5      # clearance for M5 bolts
-EPS_PLATE_X = 175.0   # plate width (X)
-
-# ---------------- Tray ----------------
-WALL = 5.0
-FLOOR = 5.0
-WALL_H = 35.0          # tray wall height above floor top
-FLANGE_EXT = 18.0      # mounting flange beyond each short end
-FLANGE_T = 6.0
-MOUNT_D = 8.5          # M8 clearance
-MOUNT_SLOT = 10.0      # slot length (adjust position on the car)
-DRAIN_D = 8.0
-
-# ---------------- Rods / holder ----------------
+# ---------------- OEM S2000 tray — MEASURE AND SET ----------------
+OEM_IN_X, OEM_IN_Y = 230.0, 125.0   # inside of the OEM tray pocket (placeholder)
+PLUG_H = 8.0                         # how far the cradle's plug drops into the OEM pocket
+# J-bolt / rod positions (x, y) where the OEM hooks are (placeholder: both short ends, centred)
+ROD_POS = [(-104.0, 0.0), (104.0, 0.0)]
 ROD_D = 6.6            # M6 clearance
-NUT_AF, NUT_H = 10.2, 5.5   # M6 hex nut pocket (across flats, depth)
-BOSS_R = 9.0
-BAR_W = 30.0           # top bar width (X); centred between the terminals
-BAR_T = 10.0
-LEG_GAP = 2.0          # gap between leg bottom and boss top so the bar clamps the battery
-PLATE_T = 6.0
-LUG_X = 70.0           # tray lugs that the EPS plate bolts to (+/- X)
-LUG_W = 20.0
-INSERT_D = 6.4         # M5 heat-set insert hole in the tray lugs
+ROD_SLOT = 12.0        # slots along X absorb measurement error
 
-PL, PW = BAT_L + 2 * CLEAR, BAT_W + 2 * CLEAR
-OL, OW = PL + 2 * WALL, PW + 2 * WALL
-Y_ROD = PW / 2 + WALL + 5.0
-Y_PLATE = Y_ROD + 10.0        # inner face of the EPS plate (+Y side)
-PLATE_Z0 = 10.0
-PLATE_Z1 = BAT_H + BAR_T
+# ---------------- EPS module — MEASURE AND SET ----------------
+EPS_HOLES = [(-60.0, -40.0), (60.0, -40.0), (-60.0, 40.0), (60.0, 40.0)]  # (x, y) from plate centre; placeholder
+EPS_SLOT = 10.0
+EPS_BOLT_D = 5.5       # M5 clearance
+EPS_HEAD_D = 10.0      # counterbore for M5 heads on the underside (heads must not touch the battery)
+EPS_HEAD_H = 4.0
+
+# ---------------- Cradle ----------------
+FLOOR = 4.0
+WALL = 4.0
+WALL_H = 20.0          # below the terminals (~40 mm up when the battery is on its side)
+TERM_CUT_X = 150.0     # width of the cut-out in the terminal-side wall
+
+# ---------------- Clamp plate ----------------
+PLATE_T = 8.0
+PLATE_Y = 130.0
+RIB_H = 8.0            # stiffening ribs along X on the top edges
+
+PX, PY = BAT_X + 2 * CLEAR, BAT_Y + 2 * CLEAR
+OX, OY = PX + 2 * WALL, PY + 2 * WALL
 
 
-def tray():
-    body = (cq.Workplane("XY").box(OL, OW, FLOOR + WALL_H, centered=(True, True, False))
+def _slot_x(x, y, length, d, z0, h):
+    return (cq.Workplane("XY").slot2D(length + d, d).extrude(h).translate((x, y, z0)))
+
+
+def cradle():
+    base = (cq.Workplane("XY").box(OX, OY, FLOOR + WALL_H, centered=(True, True, False))
             .translate((0, 0, -FLOOR)))
-    body = body.cut(cq.Workplane("XY").box(PL, PW, WALL_H + 1, centered=(True, True, False)))
-    # inside corner fillets help the battery seat and stiffen the walls
-    flange = (cq.Workplane("XY").box(OL + 2 * FLANGE_EXT, OW, FLANGE_T, centered=(True, True, False))
-              .translate((0, 0, -FLOOR)))
-    body = body.union(flange)
-    # M8 mounting slots, two per end
-    for sx in (-1, 1):
-        for sy in (-1, 1):
-            x = sx * (OL / 2 + FLANGE_EXT / 2)
-            slot = (cq.Workplane("XY").slot2D(MOUNT_SLOT + MOUNT_D, MOUNT_D, angle=90)
-                    .extrude(FLANGE_T + 2).translate((x, sy * OW / 4, -FLOOR - 1)))
-            body = body.cut(slot)
-    # gussets between the flange and the end walls
-    for sx in (-1, 1):
-        for sy in (-1, 0, 1):
-            g = (cq.Workplane("XZ").polyline([(0, 0), (FLANGE_EXT - 2, 0), (0, WALL_H - 5)]).close()
-                 .extrude(2.5, both=True)
-                 .translate((0, sy * (OW / 2 - 8), -FLOOR + FLANGE_T)))
-            if sx < 0:
-                g = g.mirror("YZ")
-            body = body.union(g.translate((sx * OL / 2, 0, 0)))
-    # rod bosses with captive nut pockets, both long sides at mid-length
-    for sy in (-1, 1):
-        boss = (cq.Workplane("XY").circle(BOSS_R).extrude(FLOOR + WALL_H)
-                .translate((0, sy * Y_ROD, -FLOOR)))
-        web = (cq.Workplane("XY").box(2 * BOSS_R, Y_ROD - OW / 2 + 1, FLOOR + WALL_H, centered=(True, False, False))
-               .translate((0, OW / 2 - 1, -FLOOR)))
-        if sy < 0:
-            web = web.mirror("XZ")
-        body = body.union(boss).union(web)
-        body = body.cut(cq.Workplane("XY").circle(ROD_D / 2).extrude(FLOOR + WALL_H + 2)
-                        .translate((0, sy * Y_ROD, -FLOOR - 1)))
-        body = body.cut(cq.Workplane("XY").polygon(6, NUT_AF / 0.866).extrude(NUT_H)
-                        .translate((0, sy * Y_ROD, -FLOOR)))
-    # lugs on the +Y side for the EPS plate's lower edge
-    for sx in (-1, 1):
-        lug = (cq.Workplane("XY").box(LUG_W, Y_PLATE - OW / 2 + 1, WALL_H - PLATE_Z0 + FLOOR, centered=(True, False, False))
-               .translate((sx * LUG_X, OW / 2 - 1, PLATE_Z0 - FLOOR)))
-        body = body.union(lug)
-        body = body.cut(cq.Workplane("XZ").circle(INSERT_D / 2).extrude(-12)
-                        .translate((sx * LUG_X, Y_PLATE + 0.01, PLATE_Z0 + 12)))
-    # drain / weight-saving holes in the floor
-    for x in (-60, -20, 20, 60):
-        body = body.cut(cq.Workplane("XY").circle(DRAIN_D / 2).extrude(FLOOR + 2)
-                        .translate((x, 0, -FLOOR - 1)))
-    return body
+    base = base.cut(cq.Workplane("XY").box(PX, PY, WALL_H + 1, centered=(True, True, False)))
+    base = base.edges("|Z").fillet(3)
+    # plug that drops into the OEM tray pocket so the cradle can't slide
+    plug = (cq.Workplane("XY").box(min(OEM_IN_X - 2, OX), min(OEM_IN_Y - 2, OY), PLUG_H, centered=(True, True, False))
+            .translate((0, 0, -FLOOR - PLUG_H)))
+    plug = plug.cut(cq.Workplane("XY").box(min(OEM_IN_X - 2, OX) - 12, min(OEM_IN_Y - 2, OY) - 12, PLUG_H, centered=(True, True, False))
+                    .translate((0, 0, -FLOOR - PLUG_H)))   # hollow ring: lighter, still locates
+    c = base.union(plug)
+    # terminal-side wall cut-out
+    c = c.cut(cq.Workplane("XY").box(TERM_CUT_X, WALL + 2, WALL_H, centered=(True, True, False))
+              .translate((0, TERMINAL_SIDE * (PY / 2 + WALL / 2), 6)))
+    # J-bolt passages (slots through floor/plug where the hooks are)
+    for (x, y) in ROD_POS:
+        c = c.cut(_slot_x(x, y, ROD_SLOT, ROD_D + 2, -FLOOR - PLUG_H - 1, FLOOR + PLUG_H + WALL_H + 2))
+    # drain / lightening holes
+    for x in (-55, 0, 55):
+        for y in (-45, 45):
+            c = c.cut(cq.Workplane("XY").circle(6).extrude(FLOOR + 2).translate((x, y, -FLOOR - 1)))
+    return c
 
 
-def holder():
-    # top clamp bar resting on the battery lid, centred lengthwise (clear of the terminals)
-    bar = (cq.Workplane("XY").box(BAR_W, Y_PLATE + Y_ROD + 10, BAR_T, centered=(True, False, False))
-           .translate((0, -Y_ROD - 10, BAT_H)))
-    bar = bar.edges("|Z").fillet(3)
-    # +Y leg: joins the bar to the plate, guides the rod
-    leg_z0 = WALL_H + LEG_GAP
-    leg = (cq.Workplane("XY").box(BAR_W, Y_PLATE - (Y_ROD - 8), BAT_H - leg_z0, centered=(True, False, False))
-           .translate((0, Y_ROD - 8, leg_z0)))
-    # vertical EPS plate on the +Y side
-    plate = (cq.Workplane("XY").box(EPS_PLATE_X, PLATE_T, PLATE_Z1 - PLATE_Z0, centered=(True, False, False))
-             .translate((0, Y_PLATE, PLATE_Z0)))
-    plate = plate.edges("|Y").fillet(8)
-    h = bar.union(leg).union(plate)
-    # rod holes through bar and leg
+def clamp_plate():
+    xs = [abs(x) for x, _ in ROD_POS]
+    half_x = max(max(xs) + ROD_SLOT / 2 + 12, OX / 2)
+    z0 = BAT_Z
+    p = (cq.Workplane("XY").box(2 * half_x, PLATE_Y, PLATE_T, centered=(True, True, False))
+         .translate((0, 0, z0)))
+    p = p.edges("|Z").fillet(10)
     for sy in (-1, 1):
-        h = h.cut(cq.Workplane("XY").circle(ROD_D / 2).extrude(BAT_H + 40).translate((0, sy * Y_ROD, 0)))
-    # EPS module slots, relative to the plate centre
-    zc = (PLATE_Z0 + PLATE_Z1) / 2
-    for (x, z) in EPS_HOLES:
-        s = (cq.Workplane("XZ").slot2D(EPS_SLOT + EPS_BOLT_D, EPS_BOLT_D).extrude(-(PLATE_T + 2))
-             .translate((x, Y_PLATE - 1, zc + z)))
-        h = h.cut(s)
-    # bolts to the tray lugs (M5 into heat-set inserts)
-    for sx in (-1, 1):
-        h = h.cut(cq.Workplane("XZ").circle(EPS_BOLT_D / 2).extrude(-(PLATE_T + 2))
-                  .translate((sx * LUG_X, Y_PLATE - 1, PLATE_Z0 + 12)))
-    # vent / lightening windows that avoid the EPS hole pattern
-    for x in (-35, 35):
-        w = (cq.Workplane("XZ").rect(30, 50).extrude(-(PLATE_T + 2))
-             .edges("|Y").fillet(6).translate((x, Y_PLATE - 1, zc)))
-        h = h.cut(w)
-    return h
+        rib = (cq.Workplane("XY").box(2 * half_x - 20, 6, RIB_H, centered=(True, True, False))
+               .translate((0, sy * (PLATE_Y / 2 - 3), z0 + PLATE_T)))
+        p = p.union(rib)
+    for (x, y) in ROD_POS:
+        p = p.cut(_slot_x(x, y, ROD_SLOT, ROD_D, z0 - 1, PLATE_T + RIB_H + 2))
+    for (x, y) in EPS_HOLES:
+        p = p.cut(_slot_x(x, y, EPS_SLOT, EPS_BOLT_D, z0 - 1, PLATE_T + 2))
+        p = p.cut(_slot_x(x, y, EPS_SLOT, EPS_HEAD_D, z0 - 0.01, EPS_HEAD_H))
+    # lightening windows clear of the EPS pattern
+    for x in (-25, 25):
+        p = p.cut(cq.Workplane("XY").rect(30, 40).extrude(PLATE_T + 2).edges("|Z").fillet(6)
+                  .translate((x, 0, z0 - 1)))
+    return p
 
 
 def battery():
-    return cq.Workplane("XY").box(BAT_L, BAT_W, BAT_H, centered=(True, True, False))
+    return cq.Workplane("XY").box(BAT_X, BAT_Y, BAT_Z, centered=(True, True, False))
 
 
 if __name__ == "__main__":
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
     os.makedirs(out, exist_ok=True)
-    t, hd = tray(), holder()
-    cq.exporters.export(t, os.path.join(out, "tray.stl"), tolerance=0.05, angularTolerance=0.1)
-    cq.exporters.export(hd, os.path.join(out, "holder.stl"), tolerance=0.05, angularTolerance=0.1)
+    c, p = cradle(), clamp_plate()
+    cq.exporters.export(c, os.path.join(out, "cradle.stl"), tolerance=0.05, angularTolerance=0.1)
+    cq.exporters.export(p, os.path.join(out, "clamp_plate.stl"), tolerance=0.05, angularTolerance=0.1)
     asm = (cq.Assembly()
-           .add(t, name="tray", color=cq.Color(0.2, 0.2, 0.2))
-           .add(hd, name="holder", color=cq.Color(0.8, 0.1, 0.15))
+           .add(c, name="cradle", color=cq.Color(0.2, 0.2, 0.2))
+           .add(p, name="clamp_plate", color=cq.Color(0.8, 0.1, 0.15))
            .add(battery(), name="PC680 (reference)", color=cq.Color(0.9, 0.9, 0.9, 0.4)))
-    asm.save(os.path.join(out, "assembly.step"))
-    for name, s in (("tray", t), ("holder", hd)):
+    asm.export(os.path.join(out, "assembly.step"))
+    for name, s in (("cradle", c), ("clamp_plate", p)):
         bb = s.val().BoundingBox()
         print(f"{name}: valid={s.val().isValid()} vol={s.val().Volume()/1000:.0f} cm3 "
               f"size={bb.xlen:.1f} x {bb.ylen:.1f} x {bb.zlen:.1f} mm")
-    print(f"rod length ~{FLOOR + BAT_H + BAR_T + 15:.0f} mm (M6, incl. nut + washer on top)")
+    if OY > OEM_IN_Y:
+        print(f"NOTE: cradle is {OY:.0f} mm across vs OEM pocket {OEM_IN_Y:.0f} mm -> overhangs {(OY-OEM_IN_Y)/2:.0f} mm per side")

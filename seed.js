@@ -30,9 +30,9 @@ window.S2000_SEED = {
     { name: 'Odyssey PC680 battery', category: 'Electrical', brand: 'Odyssey', partNo: 'PC680', status: 'planned', cost: '',
       notes: '184.5 × 79 × 169.5 mm, about 7 kg' },
     { name: 'PC680 battery tray + EPS holder, 3D-printed', category: 'Electrical', brand: 'Custom', status: 'planned', cost: '',
-      notes: 'cad/battery_tray. Print in PA6-CF. Set the EPS hole pattern before printing.' },
+      notes: 'cad/battery_tray: cradle on the OEM tray (battery on its side) + clamp plate carrying the EPS module. Print in PA6-CF.' },
     { name: 'Battery tray hardware', category: 'Electrical', status: 'planned', cost: '',
-      notes: '2× M6 threaded rod ~200 mm + 4 nuts/washers; 4× M8 bolts; M5 bolts, nyloc nuts and 2 heat-set inserts' },
+      notes: 'OEM J-bolts (or M6), nyloc nuts + large washers; 4× M5 bolts, nyloc nuts + spacers for the EPS; rubber pads' },
   ],
   log: [
     { date: '2026-10-22', title: 'Intake: cut-down plenum designs explored (v1–v3), then dropped', cost: '', hours: '',
@@ -52,7 +52,7 @@ window.S2000_SEED = {
     { text: 'Design the sealed heat-shield filter box (snorkel-fed, drain hole)', priority: 2, done: false },
     { text: 'Make the intake bracket with rubber isolators near the bend', priority: 2, done: false },
     { text: 'Measure the EPS module hole pattern and set EPS_HOLES in cad/battery_tray/battery_tray.py', priority: 1, done: false },
-    { text: 'Choose the battery tray location and mark the M8 mounting holes', priority: 2, done: false },
-    { text: 'Print the battery tray + holder in PA6-CF, then fit the battery and check the clamp bar sits flat', priority: 2, done: false },
+    { text: 'Measure the OEM tray pocket (inside L × W) and J-bolt hook positions; set OEM_IN_X/Y and ROD_POS', priority: 1, done: false },
+    { text: 'Print the battery tray + holder in PA6-CF, check the cradle overhang clears the trunk panels and the positive terminal clears metal', priority: 2, done: false },
   ],
 };
