@@ -2,7 +2,7 @@
 
 ![preview](preview.png)
 
-The Odyssey PC680 (184.5 × 79 × 169.5 mm, AGM) lies **on its side, directly in the OEM S2000 battery tray** in the engine bay. Odyssey rates it for any mounting orientation. No cradle is used: the OEM tray locates the battery.
+The Odyssey battery (measured **130 mm** across as it sits; length 184.5 and thickness 79 are PC680 catalogue values, so confirm them) lies **on its side, directly in the OEM S2000 battery tray** in the engine bay. Odyssey rates it for any mounting orientation. No cradle is used: the OEM tray locates the battery.
 
 There's one printed part, the **clamp plate**. It sits on the battery's upturned face, the OEM J-hooks pull it down, and the **EPS module (Showa 39980-S2A-A01)** bolts on top of it.
 
@@ -14,10 +14,10 @@ The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Ru
   - The module is rotated 90° with its connectors along the battery length, and shifted 15 mm toward the fender end.
   - Bolt heads are recessed on the underside, so they never touch the battery.
   - Settings: `EPS_ROTATE`, `EPS_CONNECTORS`, `EPS_SHIFT`.
-- **J-hooks: not finalised.**
-  - The OEM hooks sit across the battery's width, with slots measured 132 mm apart.
-  - The battery on its side is 169.5 mm across that direction, so vertical hooks at 132 mm would pass through the battery.
-  - The hook hole positions (`JHOOK_SPACING`, `JHOOK_X`) stay provisional until this is resolved.
+- **J-hooks: done.**
+  - The OEM hooks run straight up past the battery's front and back faces. The slots are 132 mm apart and the battery is 130 mm across.
+  - The plate's hook holes are 8 mm slots across the width, centred on the battery's length (`JHOOK_SPACING`, `JHOOK_X`).
+- **Plate:** 188.5 × 164 × 16 mm. It overhangs the battery front and back so it can reach the hooks.
 
 ## Hardware
 - **Hold-down:** OEM J-hooks with nyloc nuts and large washers on top of the plate

@@ -15,9 +15,10 @@ Steel carries the hold-down load; the plate only spreads it.
 import os
 import cadquery as cq
 
-# ---------------- Battery: Odyssey PC680, lying on a long side ----------------
-# Spec 184.5 L x 79 W x 169.5 H. On its side: footprint L x H, height W.
-BAT_X, BAT_Y, BAT_Z = 184.5, 169.5, 79.0
+# ---------------- Battery, lying on its side in the OEM tray ----------------
+# BAT_Y measured on the car: 130 mm across (front-back, J-hook direction).
+# BAT_X / BAT_Z are PC680 catalogue values (184.5 long, 79 thick) — confirm on the car.
+BAT_X, BAT_Y, BAT_Z = 184.5, 130.0, 79.0
 TERMINAL_SIDE = +1     # terminals face +Y (the cradle wall on that side gets a cut-out)
 
 # ---------------- OEM S2000 tray J-hooks ----------------
@@ -26,7 +27,7 @@ JHOOK_SPACING = 132.0   # measured: OEM J-hook slot centres
 JHOOK_X = 0.0           # position along the battery length (assumed centred)
 ROD_POS = [(JHOOK_X, -JHOOK_SPACING / 2), (JHOOK_X, JHOOK_SPACING / 2)]
 ROD_D = 6.6            # M6 clearance
-ROD_SLOT = 12.0        # slot length (along Y) to absorb hook lean / measurement error
+ROD_SLOT = 8.0         # slot length (along Y): hooks run ~1 mm outside the battery faces
 
 # ---------------- EPS module: Showa 39980-S2A-A01 (S2000) ----------------
 # Measured hole pattern: 115 mm across x 30 mm between the upper and lower hole on each flange.
