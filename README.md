@@ -19,10 +19,10 @@ Data is saved in your browser's localStorage. Use **Export JSON** for backups or
 The maintenance intervals are common enthusiast intervals. Check them against your owner's or service manual.
 
 ## Keypad decal planner
-[`tools/keypad-planner.html`](tools/keypad-planner.html) is an interactive previewer for the Haltech 3×5 (15-button) CAN keypad. You can:
-- give each button a label, icon, function and on/off LED colour;
+[`tools/keypad/keypad-planner.html`](tools/keypad/keypad-planner.html) is an interactive previewer for the Haltech 3×5 (15-button) CAN keypad that uses only the official HT-011500 decals (sheets A–I, 252 decals). Decal images are cropped from the sheet scans in `tools/keypad/sheets/` by `build_decals.py`. You can:
+- give each button an official decal, a function and on/off LED colours;
 - light the buttons up in test mode;
 - drag buttons to swap them;
-- copy a real-size decal sheet as SVG.
+- see which decals to peel from which sheet.
 
 Online version: https://claude.ai/artifact/AeJw85NEyf6m21DWZ6K1zA
