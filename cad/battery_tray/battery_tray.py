@@ -1,7 +1,7 @@
 """
-Odyssey PC680 laid on its side directly in the OEM Honda S2000 battery tray (no cradle: the
+Odyssey PC545 laid on its side directly in the OEM Honda S2000 battery tray (no cradle: the
 OEM tray locates the battery). One printed part:
-  clamp_plate.stl  hold-down plate on the battery's upturned side face, pulled down by the
+  clamp_plate.stl  battery-shaped cap over the upturned side face, pulled down by the
                    OEM J-hooks; the EPS module bolts on top
 
 Parametric CadQuery model. Run:  python3 battery_tray.py   ->  ./out/
@@ -15,10 +15,10 @@ Steel carries the hold-down load; the plate only spreads it.
 import os
 import cadquery as cq
 
-# ---------------- Battery, lying on its side in the OEM tray ----------------
-# BAT_Y measured on the car: 130 mm across (front-back, J-hook direction).
-# BAT_X / BAT_Z are PC680 catalogue values (184.5 long, 79 thick) — confirm on the car.
-BAT_X, BAT_Y, BAT_Z = 184.5, 130.0, 79.0
+# ---------------- Battery: Odyssey PC545, lying on its side in the OEM tray ----------------
+# Odyssey spec 7.00 x 3.38 x 5.17 in = 177.8 L x 85.9 W x 131.3 H mm (measured 130 mm across on the car).
+# On its side: X = length, Y = across (J-hook direction, = spec height), Z = up (= spec width).
+BAT_X, BAT_Y, BAT_Z = 177.8, 131.3, 85.9
 TERMINAL_SIDE = +1     # terminals face +Y (the cradle wall on that side gets a cut-out)
 
 # ---------------- OEM S2000 tray J-hooks ----------------
@@ -57,10 +57,14 @@ EPS_BOLT_D = 6.4       # M6 clearance (the OEM EPS bolts are likely 6 mm; M5 als
 EPS_HEAD_D = 12.0      # counterbore for bolt heads on the underside (heads must not touch the battery)
 EPS_HEAD_H = 4.5
 
-# ---------------- Clamp plate ----------------
-PLATE_T = 8.0
-PLATE_Y = 150.0
-RIB_H = 8.0            # stiffening ribs along X on the top edges
+# ---------------- Clamp plate / battery cap ----------------
+PLATE_T = 8.0          # top deck thickness
+PLATE_Y = 150.0        # minimum deck width (Y); grows to reach the J-hooks
+CAP_CLEAR = 0.75       # clearance per side between the cap pocket and the battery case
+CAP_WALL = 4.0         # skirt wall thickness
+SKIRT_D = 15.0         # how far the skirt wraps down the battery's sides
+CORNER_R = 5.0         # battery case corner radius (est.)
+HOOK_NOTCH = 24.0      # gap in the skirt where each J-hook runs down the battery face
 
 
 
@@ -68,31 +72,31 @@ def _slot(x, y, length, d, z0, h, angle=0):
     return cq.Workplane("XY").slot2D(length + d, d, angle=angle).extrude(h).translate((x, y, z0))
 
 
+def _rrect(x, y, r, z0, h):
+    return (cq.Workplane("XY").rect(x, y).extrude(h).edges("|Z").fillet(r).translate((0, 0, z0)))
+
+
 def clamp_plate():
-    half_x = BAT_X / 2 + 2
-    half_y = max(PLATE_Y / 2, max(abs(y) for _, y in ROD_POS) + ROD_SLOT / 2 + 12)
+    """Top deck (EPS mount, J-hook slots) + a skirt whose inside is the battery's shape."""
     z0 = BAT_Z
-    p = (cq.Workplane("XY").box(2 * half_x, 2 * half_y, PLATE_T, centered=(True, True, False))
-         .translate((0, 0, z0)))
-    p = p.edges("|Z").fillet(10)
-    for sy in (-1, 1):
-        if EPS_ROTATE % 180 == 0 and sy * (1 if EPS_ROTATE % 360 == 0 else -1) == EPS_CONNECTORS:
-            # leave the connector side open so the harness plugs can slide on
-            seg = half_x - 10 - 70
-            for sx in (-1, 1):
-                rib = (cq.Workplane("XY").box(seg, 6, RIB_H, centered=(True, True, False))
-                       .translate((sx * (70 + seg / 2), sy * (half_y - 3), z0 + PLATE_T)))
-                p = p.union(rib)
-        else:
-            rib = (cq.Workplane("XY").box(2 * half_x - 20, 6, RIB_H, centered=(True, True, False))
-                   .translate((0, sy * (half_y - 3), z0 + PLATE_T)))
-            p = p.union(rib)
+    in_x, in_y = BAT_X + 2 * CAP_CLEAR, BAT_Y + 2 * CAP_CLEAR
+    out_x, out_y = in_x + 2 * CAP_WALL, in_y + 2 * CAP_WALL
+    r_in, r_out = CORNER_R + CAP_CLEAR, CORNER_R + CAP_CLEAR + CAP_WALL
+    half_y = max(PLATE_Y / 2, out_y / 2, max(abs(y) for _, y in ROD_POS) + ROD_SLOT / 2 + 12)
+    deck = _rrect(out_x, 2 * half_y, max(r_out, 10), z0, PLATE_T)
+    skirt = _rrect(out_x, out_y, r_out, z0 - SKIRT_D, SKIRT_D + 0.01).cut(
+        _rrect(in_x, in_y, r_in, z0 - SKIRT_D - 1, SKIRT_D + 1))
+    # notches so the J-hooks can run straight down the battery faces
     for (x, y) in ROD_POS:
-        p = p.cut(_slot(x, y, ROD_SLOT, ROD_D, z0 - 1, PLATE_T + RIB_H + 2, angle=90))
+        skirt = skirt.cut(cq.Workplane("XY").box(HOOK_NOTCH, 2 * CAP_WALL + 20, SKIRT_D + 2, centered=(True, True, False))
+                          .translate((x, y, z0 - SKIRT_D - 1)))
+    p = deck.union(skirt)
+    for (x, y) in ROD_POS:
+        p = p.cut(_slot(x, y, ROD_SLOT, ROD_D, z0 - 1, PLATE_T + 2, angle=90))
     for (x, y) in EPS_HOLES:
         for d, zz, hh in ((EPS_BOLT_D, z0 - 1, PLATE_T + 2), (EPS_HEAD_D, z0 - 0.01, EPS_HEAD_H)):
             p = p.cut(cq.Workplane("XY").slot2D(EPS_SLOT + d, d, angle=EPS_ROTATE).extrude(hh).translate((x, y, zz)))
-    # lightening windows clear of the EPS pattern
+    # vent / lightening windows clear of the EPS pattern
     for x in (-22, 22):
         p = p.cut(cq.Workplane("XY").rect(28, 60).extrude(PLATE_T + 2).edges("|Z").fillet(6)
                   .translate((x, 0, z0 - 1)))
@@ -114,7 +118,7 @@ def eps_reference():
 
 
 def battery():
-    return cq.Workplane("XY").box(BAT_X, BAT_Y, BAT_Z, centered=(True, True, False))
+    return _rrect(BAT_X, BAT_Y, CORNER_R, 0, BAT_Z)
 
 
 if __name__ == "__main__":
@@ -125,7 +129,7 @@ if __name__ == "__main__":
     asm = (cq.Assembly()
            .add(p, name="clamp_plate", color=cq.Color(0.8, 0.1, 0.15))
            .add(eps_reference(), name="EPS (reference)", color=cq.Color(0.6, 0.6, 0.62))
-           .add(battery(), name="PC680 (reference)", color=cq.Color(0.9, 0.9, 0.9, 0.4)))
+           .add(battery(), name="PC545 (reference)", color=cq.Color(0.9, 0.9, 0.9, 0.4)))
     asm.export(os.path.join(out, "assembly.step"))
     for name, s in (("clamp_plate", p),):
         bb = s.val().BoundingBox()
