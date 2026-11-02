@@ -52,15 +52,16 @@ def _rot(u, v, deg=EPS_ROTATE):
 
 
 EPS_HOLES = [_rot(u, v) for u, v in EPS_HOLES_LOCAL]
-# M6 heat-set inserts in bosses on top of the deck (bolts go in from above, through the EPS flanges)
+# M6 heat-set inserts flush in the deck; the EPS module sits flat on the plate
 INSERT_D = 8.0         # insert hole diameter (typical M6 x 12.7 mm insert; check your insert's datasheet)
 INSERT_L = 12.7        # insert length
 INSERT_HOLE = 14.0     # blind hole depth (insert length + ~1.3 mm for displaced plastic)
-BOSS_D = 16.0          # boss diameter (4 mm wall around the insert)
-BOSS_H = 8.0           # boss height above the deck -> deck + boss = 16 mm, 2 mm solid floor under the hole
+BOSS_H = 0.0           # no bosses: inserts are flush with the deck top
 
 # ---------------- Clamp plate / battery cap ----------------
-PLATE_T = 8.0          # top deck thickness
+PLATE_T = 16.0         # top deck thickness (holds a full-length M6 insert in a blind hole)
+HOOK_SPOTFACE_D = 22.0 # recess around each J-hook slot so the nut sits as low as on an 8 mm plate
+HOOK_SPOTFACE_H = 8.0
 PLATE_Y = 150.0        # minimum deck width (Y); grows to reach the J-hooks
 CAP_CLEAR = 0.75       # clearance per side between the cap pocket and the battery case
 CAP_WALL = 4.0         # skirt wall thickness
@@ -95,11 +96,9 @@ def clamp_plate():
     p = deck.union(skirt)
     for (x, y) in ROD_POS:
         p = p.cut(_slot(x, y, ROD_SLOT, ROD_D, z0 - 1, PLATE_T + 2, angle=90))
-    z_top = z0 + PLATE_T + BOSS_H
+        p = p.cut(_slot(x, y, ROD_SLOT, HOOK_SPOTFACE_D, z0 + PLATE_T - HOOK_SPOTFACE_H, HOOK_SPOTFACE_H + 1, angle=90))
+    z_top = z0 + PLATE_T
     for (x, y) in EPS_HOLES:
-        boss = cq.Workplane("XY").circle(BOSS_D / 2).extrude(BOSS_H + 0.01).translate((x, y, z0 + PLATE_T - 0.01))
-        boss = boss.faces(">Z").edges().fillet(1.0)
-        p = p.union(boss)
         # blind insert hole from the top, with a 0.5 mm lead-in chamfer; never breaks through to the battery
         p = p.cut(cq.Workplane("XY").circle(INSERT_D / 2).extrude(INSERT_HOLE).translate((x, y, z_top - INSERT_HOLE)))
         p = p.cut(cq.Workplane("XY").circle(INSERT_D / 2 + 0.5).workplane(offset=0.5).circle(INSERT_D / 2).loft()

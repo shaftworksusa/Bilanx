@@ -12,12 +12,13 @@ The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Ru
 - **EPS mount: done.**
   - Hole pattern measured at **115 × 30 mm**.
   - The module is rotated 90° with its connectors along the battery length, and shifted 15 mm toward the fender end.
-  - **Four M6 heat-set inserts** sit in 16 mm-tall bosses on top of the deck (8 mm hole, 14 mm deep, blind with a 2 mm floor), so bolts can never reach the battery. The bosses raise the module about 8 mm off the deck for airflow.
+  - **Four M6 heat-set inserts** sit flush in the deck, and the module **sits flat on the plate**. Each hole is 8.0 mm across and 14 mm deep. They're blind, with a 2 mm floor, so a bolt can never reach the battery.
+  - The deck is 16 mm thick to hold the full-length inserts. The J-hook slots have 22 mm-wide, 8 mm-deep recesses, so the hook nuts sit at the same height as on a thin plate.
   - Settings: `EPS_ROTATE`, `EPS_CONNECTORS`, `EPS_SHIFT`.
 - **J-hooks: done.**
   - The OEM hooks run straight up past the battery's front and back faces. The slots are 132 mm apart and the battery is 130 mm across.
   - The plate's hook holes are 8 mm slots across the width, centred on the battery's length (`JHOOK_SPACING`, `JHOOK_X`).
-- **Cap:** 187.3 × 164 × 23 mm.
+- **Cap:** 187.3 × 164 × 31 mm (16 mm deck plus 15 mm skirt).
   - The skirt has 24 mm notches where the J-hooks run down the battery faces.
   - The top deck overhangs front and back so it can reach the hooks.
   - The top is flat, with no ribs, because the skirt stiffens the cap.
@@ -33,9 +34,9 @@ The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Ru
 ## Printing
 - **Material:** PA6-CF or PA12-CF, dried properly. Avoid PLA and PETG.
 - **Settings:** 5–6 walls, 40%+ gyroid infill, 6 top/bottom layers
-- **Orientation:** print **skirt down**, with tree supports only inside the battery pocket under the deck. The insert bosses face up.
+- **Orientation:** print **top face down**. The top is flat, so it needs no supports, and the skirt and pocket face up. Press in the inserts from the top after printing.
 - **Inserts:** press them in with a soldering iron and insert tip at about 250–270 °C for PA6-CF. Keep them square, and let them cool before loading them.
-- **Boss strength:** give the bosses extra perimeters, or 100% infill around the inserts (a modifier mesh in the slicer).
+- **Insert strength:** use 100% infill or extra perimeters around the four insert holes (a modifier mesh in the slicer).
 
 ## Heat
 The tray sits directly above the headers. Fit an aluminium heat shield between the headers and the battery and EPS. PA6-CF holds up far better than PLA or PETG, but sustained radiant header heat will still soften it over time, and heat shortens battery life too.
