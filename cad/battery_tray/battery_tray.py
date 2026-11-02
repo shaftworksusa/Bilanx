@@ -37,11 +37,21 @@ EPS_HOLE_X, EPS_HOLE_Y = 115.0, 30.0
 EPS_LEN = 135.0             # flange top edge -> connector ends
 EPS_TOP_TO_HOLE = 10.0
 EPS_CONNECTORS = -1         # connectors point -Y (away from the battery terminals at +Y)
-EPS_SHIFT = 0.0             # extra shift along Y (mm), e.g. to let the plugs overhang the plate edge
-# Centre the module's outline on the plate:
-_y_top = EPS_CONNECTORS * -(EPS_LEN / 2 - EPS_TOP_TO_HOLE) + EPS_SHIFT * EPS_CONNECTORS
-_y_low = _y_top + EPS_CONNECTORS * EPS_HOLE_Y
-EPS_HOLES = [(sx * EPS_HOLE_X / 2, y) for sx in (-1, 1) for y in (_y_top, _y_low)]
+EPS_SHIFT = -15.0           # shift along the connector direction (mm); -15 gives the harness plugs room before the J-bolt
+EPS_ROTATE = 90             # module rotation on the plate, degrees (0 = connectors along Y; 90 = connectors along X)
+# Module-local coords (u across the 115 mm, v along the connector direction), outline centred on the plate:
+_v_top = EPS_CONNECTORS * -(EPS_LEN / 2 - EPS_TOP_TO_HOLE) + EPS_SHIFT * EPS_CONNECTORS
+_v_low = _v_top + EPS_CONNECTORS * EPS_HOLE_Y
+EPS_HOLES_LOCAL = [(su * EPS_HOLE_X / 2, v) for su in (-1, 1) for v in (_v_top, _v_low)]
+
+
+def _rot(u, v, deg=EPS_ROTATE):
+    import math
+    a = math.radians(deg)
+    return (u * math.cos(a) - v * math.sin(a), u * math.sin(a) + v * math.cos(a))
+
+
+EPS_HOLES = [_rot(u, v) for u, v in EPS_HOLES_LOCAL]
 EPS_SLOT = 4.0         # small slots: pattern is measured, this is just tolerance
 EPS_BOLT_D = 6.4       # M6 clearance (the OEM EPS bolts are likely 6 mm; M5 also works)
 EPS_HEAD_D = 12.0      # counterbore for bolt heads on the underside (heads must not touch the battery)
@@ -98,7 +108,7 @@ def clamp_plate():
          .translate((0, 0, z0)))
     p = p.edges("|Z").fillet(10)
     for sy in (-1, 1):
-        if sy == EPS_CONNECTORS:
+        if EPS_ROTATE % 180 == 0 and sy * (1 if EPS_ROTATE % 360 == 0 else -1) == EPS_CONNECTORS:
             # leave the connector side open so the harness plugs can slide on
             seg = half_x - 10 - 70
             for sx in (-1, 1):
@@ -112,8 +122,8 @@ def clamp_plate():
     for (x, y) in ROD_POS:
         p = p.cut(_slot_x(x, y, ROD_SLOT, ROD_D, z0 - 1, PLATE_T + RIB_H + 2))
     for (x, y) in EPS_HOLES:
-        p = p.cut(_slot_x(x, y, EPS_SLOT, EPS_BOLT_D, z0 - 1, PLATE_T + 2))
-        p = p.cut(_slot_x(x, y, EPS_SLOT, EPS_HEAD_D, z0 - 0.01, EPS_HEAD_H))
+        for d, zz, hh in ((EPS_BOLT_D, z0 - 1, PLATE_T + 2), (EPS_HEAD_D, z0 - 0.01, EPS_HEAD_H)):
+            p = p.cut(cq.Workplane("XY").slot2D(EPS_SLOT + d, d, angle=EPS_ROTATE).extrude(hh).translate((x, y, zz)))
     # lightening windows clear of the EPS pattern
     for x in (-22, 22):
         p = p.cut(cq.Workplane("XY").rect(28, 60).extrude(PLATE_T + 2).edges("|Z").fillet(6)
@@ -124,14 +134,15 @@ def clamp_plate():
 def eps_reference():
     """Rough EPS outline for fit checks only (photo-estimated)."""
     zc = BAT_Z + PLATE_T
-    yc = EPS_HOLES[0][1] + EPS_CONNECTORS * (EPS_LEN / 2 - EPS_TOP_TO_HOLE)
+    v_top = EPS_HOLES_LOCAL[0][1]
+    yc = v_top + EPS_CONNECTORS * (EPS_LEN / 2 - EPS_TOP_TO_HOLE)
     flange = (cq.Workplane("XY").box(133, 45, 6, centered=(True, True, False))
-              .translate((0, EPS_HOLES[0][1] + EPS_CONNECTORS * 12, zc)))
+              .translate((0, v_top + EPS_CONNECTORS * 12, zc)))
     body = (cq.Workplane("XY").box(94, EPS_LEN - 25, 30, centered=(True, True, False))
             .translate((0, yc - EPS_CONNECTORS * 2, zc)))
     plugs = (cq.Workplane("XY").box(90, 22, 20, centered=(True, True, False))
              .translate((0, yc + EPS_CONNECTORS * (EPS_LEN / 2 - 11), zc)))
-    return flange.union(body).union(plugs)
+    return flange.union(body).union(plugs).rotate((0, 0, 0), (0, 0, 1), EPS_ROTATE)
 
 
 def battery():

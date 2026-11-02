@@ -16,7 +16,7 @@ These values in `battery_tray.py` are **placeholders**:
 1. **`OEM_IN_X`, `OEM_IN_Y`:** the inside length and width of the OEM tray pocket.
 2. **`ROD_POS`:** where the OEM J-bolt hooks are, as (x, y) from the tray centre.
 
-**EPS module: done.** The hole pattern is measured at **115 × 30 mm**. The outline used for the fit check (`out/eps_reference.stl`) is estimated from a photo: about 133 mm across the flanges and about 135 mm from the flange edge to the connectors. To flip the connectors toward the terminals, change `EPS_CONNECTORS`. To move the module along the plate, change `EPS_SHIFT`.
+**EPS module: done.** The hole pattern is measured at **115 × 30 mm**. The outline used for the fit check (`out/eps_reference.stl`) is estimated from a photo: about 133 mm across the flanges and about 135 mm from the flange edge to the connectors. To change the orientation, set `EPS_ROTATE` (0/90/180/270). `EPS_CONNECTORS` flips the connector direction, and `EPS_SHIFT` moves the module along it.
 
 The J-bolt holes are 12 mm slots and the EPS holes are 4 mm slots, so small measurement errors are tolerated.
 
