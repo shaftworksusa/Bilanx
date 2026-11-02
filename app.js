@@ -27,7 +27,7 @@
   const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
   const today = () => new Date().toISOString().slice(0, 10);
 
-  function defaults() {
+  function blank() {
     return {
       car: { year: '', chassis: 'AP1', color: '', vin: '', budget: '', goal: '' },
       odometer: '',
@@ -38,6 +38,24 @@
       })),
       log: [],
       todos: [],
+    };
+  }
+
+  // seed.js (optional) can define window.S2000_SEED with project data pulled in
+  // from earlier work. Seed items are merged on top of the blank defaults.
+  function defaults() {
+    const base = blank();
+    const seed = window.S2000_SEED;
+    if (!seed) return base;
+    const withIds = (arr) => (arr || []).map((x) => ({ ...x, id: x.id || uid() }));
+    return {
+      ...base,
+      car: { ...base.car, ...(seed.car || {}) },
+      odometer: seed.odometer ?? base.odometer,
+      parts: withIds(seed.parts),
+      maintenance: seed.maintenance ? withIds(seed.maintenance) : base.maintenance,
+      log: withIds(seed.log),
+      todos: withIds(seed.todos),
     };
   }
 
@@ -323,6 +341,22 @@
       state = { ...defaults(), ...data }; fillCarForm(); save();
     } catch (err) { alert('Import failed: ' + err.message); }
     e.target.value = '';
+  });
+  $('#mergeSeed').addEventListener('click', () => {
+    const seed = window.S2000_SEED;
+    if (!seed) { alert('No seed.js data found.'); return; }
+    const key = { parts: 'name', log: 'title', todos: 'text', maintenance: 'name' };
+    let added = 0;
+    for (const [list, k] of Object.entries(key)) {
+      const have = new Set(state[list].map((x) => String(x[k]).toLowerCase()));
+      for (const item of seed[list] || []) {
+        if (have.has(String(item[k]).toLowerCase())) continue;
+        state[list].push({ ...item, id: uid() }); added++;
+      }
+    }
+    for (const [k, v] of Object.entries(seed.car || {})) if (!state.car[k]) state.car[k] = v;
+    fillCarForm(); save();
+    alert(`Added ${added} item(s) from project data.`);
   });
   $('#resetBtn').addEventListener('click', () => {
     if (confirm('Erase all data and restore the default maintenance schedule?')) { state = defaults(); fillCarForm(); save(); }
