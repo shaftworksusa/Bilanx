@@ -54,5 +54,6 @@ window.S2000_SEED = {
     { text: 'Measure the EPS module hole pattern (115 × 30 mm) and add it to the model', priority: 1, done: true },
     { text: 'Measure the OEM tray pocket (inside L × W) and J-bolt hook positions; set OEM_IN_X/Y and ROD_POS', priority: 1, done: false },
     { text: 'Print the clamp cap in PA6-CF (skirt down, supports in the pocket), then install the 4 M6 heat-set inserts, make sure the positive terminal clears body metal', priority: 2, done: false },
+    { text: 'Plan the Haltech 3×5 CAN keypad layout in tools/keypad-planner.html, then order the decals', priority: 2, done: false },
   ],
 };

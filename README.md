@@ -17,3 +17,12 @@ Design notes for the custom intake are in [`docs/intake-pipe.md`](docs/intake-pi
 Data is saved in your browser's localStorage. Use **Export JSON** for backups or to move data to another device.
 
 The maintenance intervals are common enthusiast intervals. Check them against your owner's or service manual.
+
+## Keypad decal planner
+[`tools/keypad-planner.html`](tools/keypad-planner.html) is an interactive previewer for the Haltech 3×5 (15-button) CAN keypad. You can:
+- give each button a label, icon, function and on/off LED colour;
+- light the buttons up in test mode;
+- drag buttons to swap them;
+- copy a real-size decal sheet as SVG.
+
+Online version: https://claude.ai/artifact/AeJw85NEyf6m21DWZ6K1zA
