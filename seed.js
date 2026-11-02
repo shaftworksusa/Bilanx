@@ -29,8 +29,8 @@ window.S2000_SEED = {
       notes: 'Passenger-front corner, fed from the snorkel, with a drain hole. Not designed yet.' },
     { name: 'Odyssey PC680 battery', category: 'Electrical', brand: 'Odyssey', partNo: 'PC680', status: 'planned', cost: '',
       notes: '184.5 × 79 × 169.5 mm, about 7 kg' },
-    { name: 'PC680 battery tray + EPS holder, 3D-printed', category: 'Electrical', brand: 'Custom', status: 'planned', cost: '',
-      notes: 'cad/battery_tray: cradle on the OEM tray (battery on its side) + clamp plate carrying the EPS module. Print in PA6-CF.' },
+    { name: 'PC680 clamp plate + EPS mount, 3D-printed', category: 'Electrical', brand: 'Custom', status: 'planned', cost: '',
+      notes: 'cad/battery_tray: clamp plate on the battery (on its side in the OEM tray), held by the OEM J-hooks, carrying the EPS module. Print in PA6-CF.' },
     { name: 'Battery tray hardware', category: 'Electrical', status: 'planned', cost: '',
       notes: 'OEM J-bolts (or M6), nyloc nuts + large washers; 4× M6 bolts + nyloc nuts for the EPS (Showa 39980-S2A-A01); rubber pads' },
   ],
@@ -53,6 +53,6 @@ window.S2000_SEED = {
     { text: 'Make the intake bracket with rubber isolators near the bend', priority: 2, done: false },
     { text: 'Measure the EPS module hole pattern (115 × 30 mm) and add it to the model', priority: 1, done: true },
     { text: 'Measure the OEM tray pocket (inside L × W) and J-bolt hook positions; set OEM_IN_X/Y and ROD_POS', priority: 1, done: false },
-    { text: 'Print the battery tray + holder in PA6-CF, check the cradle overhang clears the trunk panels and the positive terminal clears metal', priority: 2, done: false },
+    { text: 'Print the battery tray + holder in PA6-CF, make sure the positive terminal clears body metal', priority: 2, done: false },
   ],
 };
