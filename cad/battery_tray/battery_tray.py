@@ -132,6 +132,13 @@ if __name__ == "__main__":
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
     os.makedirs(out, exist_ok=True)
     p = clamp_plate()
+    # print-ready copy: flipped top-face-down, sitting on Z=0, centred on the bed
+    pp = p.rotate((0, 0, 0), (1, 0, 0), 180)
+    bb = pp.val().BoundingBox()
+    pp = pp.translate((-(bb.xmin + bb.xmax) / 2, -(bb.ymin + bb.ymax) / 2, -bb.zmin))
+    cq.exporters.export(pp, os.path.join(out, "clamp_plate_PRINT.step"))
+    cq.exporters.export(pp, os.path.join(out, "clamp_plate_PRINT.stl"), tolerance=0.02, angularTolerance=0.05)
+    cq.exporters.export(p, os.path.join(out, "clamp_plate.step"))
     cq.exporters.export(p, os.path.join(out, "clamp_plate.stl"), tolerance=0.05, angularTolerance=0.1)
     asm = (cq.Assembly()
            .add(p, name="clamp_plate", color=cq.Color(0.8, 0.1, 0.15))

@@ -31,12 +31,33 @@ The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Ru
   - A drop of medium threadlocker, or a spring washer, since the bolts see engine vibration.
 - **Pad (optional):** a 1 mm rubber or neoprene pad inside the cap. The pocket has 0.75 mm clearance per side, so add a pad only to the top face, not the walls.
 
-## Printing
-- **Material:** PA6-CF or PA12-CF, dried properly. Avoid PLA and PETG.
-- **Settings:** 5–6 walls, 40%+ gyroid infill, 6 top/bottom layers
-- **Orientation:** print **top face down**. The top is flat, so it needs no supports, and the skirt and pocket face up. Press in the inserts from the top after printing.
-- **Inserts:** press them in with a soldering iron and insert tip at about 250–270 °C for PA6-CF. Keep them square, and let them cool before loading them.
-- **Insert strength:** use 100% infill or extra perimeters around the four insert holes (a modifier mesh in the slicer).
+## Printing (PA6-CF, 0.6 mm hardened nozzle)
+**File:** [`out/clamp_plate_PRINT.step`](out/clamp_plate_PRINT.step), already oriented top-face-down and centred on Z = 0. Import it as-is and don't rotate it. `out/clamp_plate_PRINT.stl` is the same part, and `out/clamp_plate.step` is the as-installed orientation for CAD.
+
+| Setting | Value |
+|---|---|
+| Nozzle | 0.6 mm **hardened** steel / ruby (CF wears brass quickly) |
+| Line width | 0.65 mm (outer 0.62) |
+| Layer height | 0.25–0.30 mm (first layer 0.30) |
+| Walls | 4 (~2.6 mm) |
+| Top / bottom | 5 / 4 layers |
+| Infill | 40% gyroid. Add a **100% modifier** (16 mm cylinder) around each of the 4 insert holes and the 2 J-hook slots. |
+| Nozzle temp | 270–290 °C (check your filament's datasheet) |
+| Bed | 90–110 °C, on PEI with glue stick, or the plate the filament maker recommends |
+| Chamber | Enclosed and warm (about 40–50 °C if you can). No drafts. |
+| Part cooling | 0–20%; up to 40% for bridges only |
+| Speed | 60–100 mm/s infill, 30–40 mm/s outer wall |
+| Brim | 5–8 mm. The part is 187 mm long and flat, so nylon will want to lift at the corners. |
+| Supports | None needed. The pocket roof and the slots bridge, or open upward. |
+| Filament | Dry at 80 °C for 8–12 h and print from a dry box (below 20% RH) |
+
+Estimated material: about 300–350 g at 40% infill. Check in your slicer.
+
+**After printing:**
+1. **Cool down:** let the part cool on the bed before removing it, to limit warping.
+2. **Anneal:** anneal if your filament's datasheet recommends it. This improves heat resistance, which helps above the headers.
+3. **Inserts:** press in the 4 × M6 heat-set inserts from the flat top at about 250–270 °C. Keep them square and flush.
+4. **Fit test:** test-fit the cap on the PC545. If it's tight, sand the skirt's inner walls lightly, or reprint with `CAP_CLEAR = 1.0`.
 
 ## Heat
 The tray sits directly above the headers. Fit an aluminium heat shield between the headers and the battery and EPS. PA6-CF holds up far better than PLA or PETG, but sustained radiant header heat will still soften it over time, and heat shortens battery life too.
