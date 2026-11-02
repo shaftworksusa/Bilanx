@@ -27,6 +27,12 @@ window.S2000_SEED = {
       notes: 'Near the bend, so the short coupler joint doesn’t carry the pipe’s weight or engine rock' },
     { name: 'Sealed heat-shield filter box', category: 'Intake', status: 'planned', cost: '',
       notes: 'Passenger-front corner, fed from the snorkel, with a drain hole. Not designed yet.' },
+    { name: 'Odyssey PC680 battery', category: 'Electrical', brand: 'Odyssey', partNo: 'PC680', status: 'planned', cost: '',
+      notes: '184.5 × 79 × 169.5 mm, about 7 kg' },
+    { name: 'PC680 battery tray + EPS holder, 3D-printed', category: 'Electrical', brand: 'Custom', status: 'planned', cost: '',
+      notes: 'cad/battery_tray. Print in PA6-CF. Set the EPS hole pattern before printing.' },
+    { name: 'Battery tray hardware', category: 'Electrical', status: 'planned', cost: '',
+      notes: '2× M6 threaded rod ~200 mm + 4 nuts/washers; 4× M8 bolts; M5 bolts, nyloc nuts and 2 heat-set inserts' },
   ],
   log: [
     { date: '2026-10-22', title: 'Intake: cut-down plenum designs explored (v1–v3), then dropped', cost: '', hours: '',
@@ -45,5 +51,8 @@ window.S2000_SEED = {
     { text: 'Buy an 80 mm ID 4-ply coupler, 2 T-bolt clamps, a 6" cone filter and high-temp epoxy', priority: 2, done: false },
     { text: 'Design the sealed heat-shield filter box (snorkel-fed, drain hole)', priority: 2, done: false },
     { text: 'Make the intake bracket with rubber isolators near the bend', priority: 2, done: false },
+    { text: 'Measure the EPS module hole pattern and set EPS_HOLES in cad/battery_tray/battery_tray.py', priority: 1, done: false },
+    { text: 'Choose the battery tray location and mark the M8 mounting holes', priority: 2, done: false },
+    { text: 'Print the battery tray + holder in PA6-CF, then fit the battery and check the clamp bar sits flat', priority: 2, done: false },
   ],
 };
