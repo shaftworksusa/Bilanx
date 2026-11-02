@@ -32,7 +32,7 @@ window.S2000_SEED = {
     { name: 'PC545 clamp cap + EPS mount, 3D-printed', category: 'Electrical', brand: 'Custom', status: 'planned', cost: '',
       notes: 'cad/battery_tray: battery-shaped clamp cap on the battery (on its side in the OEM tray), held by the OEM J-hooks, carrying the EPS module. Print in PA6-CF.' },
     { name: 'Battery tray hardware', category: 'Electrical', status: 'planned', cost: '',
-      notes: 'OEM J-bolts (or M6), nyloc nuts + large washers; 4× M6 bolts + nyloc nuts for the EPS (Showa 39980-S2A-A01); rubber pads' },
+      notes: 'OEM J-bolts (or M6), nyloc nuts + large washers; 4× M6 heat-set inserts (M6 × 12.7) + 4× M6 bolts for the EPS (Showa 39980-S2A-A01); rubber pads' },
   ],
   log: [
     { date: '2026-10-22', title: 'Intake: cut-down plenum designs explored (v1–v3), then dropped', cost: '', hours: '',
@@ -53,6 +53,6 @@ window.S2000_SEED = {
     { text: 'Make the intake bracket with rubber isolators near the bend', priority: 2, done: false },
     { text: 'Measure the EPS module hole pattern (115 × 30 mm) and add it to the model', priority: 1, done: true },
     { text: 'Measure the OEM tray pocket (inside L × W) and J-bolt hook positions; set OEM_IN_X/Y and ROD_POS', priority: 1, done: false },
-    { text: 'Print the clamp cap in PA6-CF (top face down), make sure the positive terminal clears body metal', priority: 2, done: false },
+    { text: 'Print the clamp cap in PA6-CF (skirt down, supports in the pocket), then install the 4 M6 heat-set inserts, make sure the positive terminal clears body metal', priority: 2, done: false },
   ],
 };

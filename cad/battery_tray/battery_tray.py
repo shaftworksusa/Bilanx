@@ -52,10 +52,12 @@ def _rot(u, v, deg=EPS_ROTATE):
 
 
 EPS_HOLES = [_rot(u, v) for u, v in EPS_HOLES_LOCAL]
-EPS_SLOT = 4.0         # small slots: pattern is measured, this is just tolerance
-EPS_BOLT_D = 6.4       # M6 clearance (the OEM EPS bolts are likely 6 mm; M5 also works)
-EPS_HEAD_D = 12.0      # counterbore for bolt heads on the underside (heads must not touch the battery)
-EPS_HEAD_H = 4.5
+# M6 heat-set inserts in bosses on top of the deck (bolts go in from above, through the EPS flanges)
+INSERT_D = 8.0         # insert hole diameter (typical M6 x 12.7 mm insert; check your insert's datasheet)
+INSERT_L = 12.7        # insert length
+INSERT_HOLE = 14.0     # blind hole depth (insert length + ~1.3 mm for displaced plastic)
+BOSS_D = 16.0          # boss diameter (4 mm wall around the insert)
+BOSS_H = 8.0           # boss height above the deck -> deck + boss = 16 mm, 2 mm solid floor under the hole
 
 # ---------------- Clamp plate / battery cap ----------------
 PLATE_T = 8.0          # top deck thickness
@@ -93,9 +95,15 @@ def clamp_plate():
     p = deck.union(skirt)
     for (x, y) in ROD_POS:
         p = p.cut(_slot(x, y, ROD_SLOT, ROD_D, z0 - 1, PLATE_T + 2, angle=90))
+    z_top = z0 + PLATE_T + BOSS_H
     for (x, y) in EPS_HOLES:
-        for d, zz, hh in ((EPS_BOLT_D, z0 - 1, PLATE_T + 2), (EPS_HEAD_D, z0 - 0.01, EPS_HEAD_H)):
-            p = p.cut(cq.Workplane("XY").slot2D(EPS_SLOT + d, d, angle=EPS_ROTATE).extrude(hh).translate((x, y, zz)))
+        boss = cq.Workplane("XY").circle(BOSS_D / 2).extrude(BOSS_H + 0.01).translate((x, y, z0 + PLATE_T - 0.01))
+        boss = boss.faces(">Z").edges().fillet(1.0)
+        p = p.union(boss)
+        # blind insert hole from the top, with a 0.5 mm lead-in chamfer; never breaks through to the battery
+        p = p.cut(cq.Workplane("XY").circle(INSERT_D / 2).extrude(INSERT_HOLE).translate((x, y, z_top - INSERT_HOLE)))
+        p = p.cut(cq.Workplane("XY").circle(INSERT_D / 2 + 0.5).workplane(offset=0.5).circle(INSERT_D / 2).loft()
+                  .translate((x, y, z_top - 0.5)))
     # vent / lightening windows clear of the EPS pattern
     for x in (-22, 22):
         p = p.cut(cq.Workplane("XY").rect(28, 60).extrude(PLATE_T + 2).edges("|Z").fillet(6)
@@ -105,7 +113,7 @@ def clamp_plate():
 
 def eps_reference():
     """Rough EPS outline for fit checks only (photo-estimated)."""
-    zc = BAT_Z + PLATE_T
+    zc = BAT_Z + PLATE_T + BOSS_H
     v_top = EPS_HOLES_LOCAL[0][1]
     yc = v_top + EPS_CONNECTORS * (EPS_LEN / 2 - EPS_TOP_TO_HOLE)
     flange = (cq.Workplane("XY").box(133, 45, 6, centered=(True, True, False))
@@ -137,6 +145,7 @@ if __name__ == "__main__":
               f"size={bb.xlen:.1f} x {bb.ylen:.1f} x {bb.zlen:.1f} mm")
     cq.exporters.export(eps_reference(), os.path.join(out, "eps_reference.stl"))
     print("EPS holes (x, y):", [(round(x, 1), round(y, 1)) for x, y in EPS_HOLES])
+    print(f"M6 bolts: max thread into the boss {INSERT_HOLE:.0f} mm -> bolt length = EPS flange + washer + 10–14 mm")
     inside = [abs(y) < BAT_Y / 2 for _, y in ROD_POS]
     if any(inside):
         print(f"WARNING: J-hook positions (y=±{JHOOK_SPACING/2:.0f}) are inside the battery footprint "
