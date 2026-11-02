@@ -9,21 +9,22 @@ The geometry is parametric and lives in [`battery_tray.py`](battery_tray.py). Ru
 | Part | Size (mm) | What it does |
 |---|---|---|
 | **Cradle** | 194.5 × 179.5 × 32 | Battery pocket with 1 mm clearance and 20 mm walls. A plug ring underneath drops into the OEM tray pocket so the cradle can't slide. The terminal-side wall has a cut-out. Slots let the J-bolts pass through, and there are drain holes. |
-| **Clamp plate** | 244 × 130 × 16 | Sits on the battery's upturned side face, and the OEM J-bolts clamp it down. The **EPS module bolts on top**, using M5 bolts from below with heads recessed so they never touch the battery. |
+| **Clamp plate** | 244 × 150 × 16 | Sits on the battery's upturned side face, and the OEM J-bolts clamp it down. The **EPS module bolts on top**, using M5 bolts from below with heads recessed so they never touch the battery. |
 
 ## ⚠️ Measure and set before printing
 These values in `battery_tray.py` are **placeholders**:
 1. **`OEM_IN_X`, `OEM_IN_Y`:** the inside length and width of the OEM tray pocket.
 2. **`ROD_POS`:** where the OEM J-bolt hooks are, as (x, y) from the tray centre.
-3. **`EPS_HOLES`:** the EPS module's mounting hole spacing, as (x, y) from the plate centre.
 
-All J-bolt and EPS holes are slots, so small measurement errors are tolerated.
+**EPS module: done.** The hole pattern is measured at **115 × 30 mm**. The outline used for the fit check (`out/eps_reference.stl`) is estimated from a photo: about 133 mm across the flanges and about 135 mm from the flange edge to the connectors. To flip the connectors toward the terminals, change `EPS_CONNECTORS`. To move the module along the plate, change `EPS_SHIFT`.
+
+The J-bolt holes are 12 mm slots and the EPS holes are 4 mm slots, so small measurement errors are tolerated.
 
 **Fit check:** on its side the battery is 169.5 mm across, so the cradle is about 180 mm across. That's likely wider than the OEM pocket, which is sized for the stock battery. The plug still locates inside the pocket, and the cradle floor overhangs the tray's edges. Confirm the overhang clears the surrounding trunk panels.
 
 ## Hardware
 - **Hold-down:** OEM J-bolts, or M6 J-bolts or threaded rod, with nyloc nuts and large washers on top of the plate
-- **EPS module:** 4 × M5 bolts from under the plate, nyloc nuts, and 5–10 mm spacers for an air gap under the module
+- **EPS module:** 4 × M6 bolts (M5 also fits) from under the plate, with nyloc nuts and washers on the flanges
 - **Pads:** 1–2 mm rubber or neoprene pad between the plate and the battery, and under the battery
 
 ## Printing

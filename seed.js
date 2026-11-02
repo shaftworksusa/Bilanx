@@ -32,7 +32,7 @@ window.S2000_SEED = {
     { name: 'PC680 battery tray + EPS holder, 3D-printed', category: 'Electrical', brand: 'Custom', status: 'planned', cost: '',
       notes: 'cad/battery_tray: cradle on the OEM tray (battery on its side) + clamp plate carrying the EPS module. Print in PA6-CF.' },
     { name: 'Battery tray hardware', category: 'Electrical', status: 'planned', cost: '',
-      notes: 'OEM J-bolts (or M6), nyloc nuts + large washers; 4× M5 bolts, nyloc nuts + spacers for the EPS; rubber pads' },
+      notes: 'OEM J-bolts (or M6), nyloc nuts + large washers; 4× M6 bolts + nyloc nuts for the EPS (Showa 39980-S2A-A01); rubber pads' },
   ],
   log: [
     { date: '2026-10-22', title: 'Intake: cut-down plenum designs explored (v1–v3), then dropped', cost: '', hours: '',
@@ -51,7 +51,7 @@ window.S2000_SEED = {
     { text: 'Buy an 80 mm ID 4-ply coupler, 2 T-bolt clamps, a 6" cone filter and high-temp epoxy', priority: 2, done: false },
     { text: 'Design the sealed heat-shield filter box (snorkel-fed, drain hole)', priority: 2, done: false },
     { text: 'Make the intake bracket with rubber isolators near the bend', priority: 2, done: false },
-    { text: 'Measure the EPS module hole pattern and set EPS_HOLES in cad/battery_tray/battery_tray.py', priority: 1, done: false },
+    { text: 'Measure the EPS module hole pattern (115 × 30 mm) and add it to the model', priority: 1, done: true },
     { text: 'Measure the OEM tray pocket (inside L × W) and J-bolt hook positions; set OEM_IN_X/Y and ROD_POS', priority: 1, done: false },
     { text: 'Print the battery tray + holder in PA6-CF, check the cradle overhang clears the trunk panels and the positive terminal clears metal', priority: 2, done: false },
   ],
