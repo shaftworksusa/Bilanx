@@ -12,6 +12,8 @@ Open `index.html` in a browser, or serve the folder (`python3 -m http.server`) o
 - **To-do**: task list with priorities
 - **Settings**: car details (AP1/AP2, VIN, budget, goal), JSON export/import, parts CSV export
 
+The Bilanx Owners Manual (PDF, web version and sources) is in [`docs/bilanx-manual/`](docs/bilanx-manual/).
+
 Design notes for the custom intake are in [`docs/intake-pipe.md`](docs/intake-pipe.md). Project data from earlier chats is in `seed.js`. It loads on first open, or use **Settings → Merge project data**.
 
 Data is saved in your browser's localStorage. Use **Export JSON** for backups or to move data to another device.
