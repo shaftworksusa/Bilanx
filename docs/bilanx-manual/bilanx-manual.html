@@ -1,0 +1,461 @@
+<title>Bilanx Owners Manual</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,400..900;1,50..125,400..900&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a printed owner's manual — black brand cover band, then sheet-like chapters on a quiet ground, teal used only for the brand accent and the click scale. */
+:root{
+  --ground:#eef1f1;
+  --glow-a:rgba(31,184,170,.22);
+  --glow-b:rgba(18,21,21,.07);
+  --grad-top:#f7fafa;
+  --grad-bot:#dfe7e7;
+  --sheet:#ffffff;
+  --ink:#121515;
+  --ink-soft:#2c3535;
+  --rule:#b9c6c6;
+  --teal:#1fb8aa;
+  --teal-ink:#06615a;
+  --teal-wash:#e2f5f2;
+  --warn:#a8360a;
+  --warn-wash:#fdeee4;
+  --band:#0b0d0d;
+  --band-ink:#f2f6f6;
+  --font-display:"Saira","Arial Black",Arial,sans-serif;
+  --font-body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#090b0b;--glow-a:rgba(47,211,195,.16);--glow-b:rgba(255,255,255,.04);--grad-top:#0d1111;--grad-bot:#050606;--sheet:#131717;--ink:#e8eeee;--ink-soft:#ccd7d7;--rule:#3d4a4a;
+  --teal:#2fd3c3;--teal-ink:#5fe3d6;--teal-wash:#0f2a28;--warn:#fb8a4a;--warn-wash:#2b1a10;
+  --band:#000000;--band-ink:#f2f6f6;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ground:#090b0b;--glow-a:rgba(47,211,195,.16);--glow-b:rgba(255,255,255,.04);--grad-top:#0d1111;--grad-bot:#050606;--sheet:#131717;--ink:#e8eeee;--ink-soft:#ccd7d7;--rule:#3d4a4a;
+  --teal:#2fd3c3;--teal-ink:#5fe3d6;--teal-wash:#0f2a28;--warn:#fb8a4a;--warn-wash:#2b1a10;
+  --band:#000000;--band-ink:#f2f6f6;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 700px at 100% 0%,var(--glow-a),transparent 60%),radial-gradient(900px 600px at 0% 100%,var(--glow-a),transparent 65%),repeating-linear-gradient(-72deg,var(--glow-b) 0 2px,transparent 2px 46px),linear-gradient(180deg,var(--grad-top),var(--grad-bot)) var(--ground);min-height:100vh;color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+
+/* Cover */
+.cover{background:var(--band);color:var(--band-ink);position:relative;overflow:hidden}
+.cover-in{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px;position:relative;z-index:1;display:grid;gap:28px}
+.cover::after{content:"";position:absolute;right:-20%;top:0;bottom:0;width:46%;background:var(--teal);transform:skewX(-18deg);opacity:.95}
+.cover::before{content:"";position:absolute;right:23%;top:0;bottom:0;width:10px;background:var(--teal);transform:skewX(-18deg);opacity:.95;z-index:1}
+.logo{width:min(260px,62%);height:auto;display:block;border-radius:6px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.cover h1{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:clamp(34px,7vw,64px);line-height:.95;letter-spacing:-.01em;margin:6px 0 0;text-wrap:balance;max-width:11ch}
+.cover p.sub{margin:14px 0 0;font-size:18px;color:#e4ecec;max-width:38ch}
+.cover-meta{display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--font-mono);font-size:13px;color:#e4ecec}
+.cover-meta b{color:var(--band-ink);font-weight:700}
+
+/* Contents strip */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 8px;padding:0;list-style:none}
+.toc a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);border-radius:999px;padding:6px 14px 6px 6px;font-weight:600;font-size:14px}
+.toc a span{font-family:var(--font-mono);font-size:11px;background:var(--ink);color:var(--sheet);border-radius:999px;padding:3px 8px}
+.toc a:hover,.toc a:focus-visible{border-color:var(--teal);outline:none}
+
+/* Chapters */
+.chapter{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;margin-top:24px;padding:36px clamp(18px,4vw,48px) 40px;position:relative}
+.chapter::before{content:"";position:absolute;left:-1px;top:28px;width:6px;height:44px;background:var(--teal)}
+.ch-head{display:flex;align-items:baseline;gap:16px;margin-bottom:18px}
+.ch-num{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:44px;line-height:1;color:var(--teal-ink)}
+h2{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:clamp(24px,4vw,32px);line-height:1.1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+h3{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:19px;margin:34px 0 10px;text-transform:uppercase;letter-spacing:.03em;display:flex;align-items:center;gap:10px}
+h3::before{content:"";width:18px;height:4px;background:var(--teal);transform:skewX(-20deg)}
+h4{font-family:var(--font-body);font-weight:700;font-size:17px;margin:24px 0 6px}
+p{margin:0 0 12px;max-width:68ch}
+.lead{font-size:18px;color:var(--ink)}
+strong{font-weight:700}
+.tbd{background:var(--warn-wash);color:var(--warn);font-family:var(--font-mono);font-weight:700;font-size:.85em;padding:1px 5px;border-radius:3px}
+.mono{font-family:var(--font-mono);font-weight:700;font-size:.92em}
+
+
+/* Damper tiers */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 12px}
+.tier{border:1.5px solid var(--rule);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--sheet)}
+.tier header{padding:14px 16px 12px;background:var(--band);color:var(--band-ink)}
+.tier.t2 header{background:linear-gradient(135deg,var(--band) 55%,var(--teal-ink))}
+.tier.t3 header{background:linear-gradient(135deg,var(--band) 35%,var(--teal))}
+.tier.t3{border-color:var(--teal)}
+.tier-name{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:22px;line-height:1.05}
+.tier-kind{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:4px}
+.tier.t3 .tier-kind{color:var(--band-ink)}
+.tier-count{margin-top:10px;font-size:13px;color:#d9e3e3}
+.tier-count b{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:26px;color:var(--band-ink);margin-right:4px;vertical-align:-3px}
+.tier ul{list-style:none;margin:0;padding:12px 16px 14px;display:grid;gap:12px}
+.adj-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.adj-name{font-weight:700;line-height:1.25}
+.adj-clicks{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:20px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.adj-clicks small{font-family:var(--font-body);font-stretch:100%;font-weight:600;font-size:11px;color:var(--ink-soft)}
+.adj-loc{font-size:12.5px;color:var(--ink-soft)}
+.bar{height:6px;background:var(--rule);border-radius:3px;margin-top:6px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--teal-ink);border-radius:3px}
+.key{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 20px;margin:0 0 12px;font-size:14px}
+.key dt{font-weight:700}
+.key dd{margin:0;color:var(--ink-soft)}
+@media (max-width:640px){.tiers,.key{grid-template-columns:1fr}}
+
+/* Callouts */
+.callouts{display:grid;gap:10px;margin:16px 0 4px}
+.callout{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 16px;border-radius:4px;background:var(--teal-wash);border-left:4px solid var(--teal)}
+.callout.warn{background:var(--warn-wash);border-left-color:var(--warn)}
+.callout svg{width:22px;height:22px;margin-top:1px}
+.callout .tag{font-family:var(--font-display);font-stretch:110%;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:12px;display:block;color:var(--teal-ink)}
+.callout.warn .tag{color:var(--warn)}
+.callout p{margin:2px 0 0}
+
+/* Steps */
+ol.steps{list-style:none;counter-reset:s;margin:14px 0;padding:0;display:grid;gap:10px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);font-family:var(--font-mono);font-weight:700;font-size:14px;width:30px;height:30px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%}
+ol.steps.small li::before{width:26px;height:26px;font-size:12px;border-width:1.5px;border-color:var(--teal-ink);color:var(--teal-ink)}
+ol.steps li > div{padding-top:3px}
+
+ul.ticks{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}
+ul.ticks li{padding-left:22px;position:relative}
+ul.ticks li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:3px;background:var(--teal);transform:skewX(-20deg)}
+
+/* Tables */
+.tbl{overflow-x:auto;margin:14px 0 6px}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th{font-family:var(--font-display);font-stretch:110%;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.06em;text-align:left;color:var(--ink);border-bottom:2px solid var(--ink);padding:8px 12px 8px 0}
+td{border-bottom:1px solid var(--rule);padding:10px 12px 10px 0;vertical-align:top}
+td.num{font-family:var(--font-mono);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
+
+/* Sticker cards */
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.card{border:1.5px solid var(--rule);border-radius:4px;padding:16px 18px;min-width:0}
+.card .k{font-family:var(--font-display);font-stretch:110%;font-weight:800;text-transform:uppercase;font-size:13px;letter-spacing:.05em;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.card.hot{border-color:var(--ink)}
+.sticker{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;border:1.5px solid currentColor;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.card p{margin:0}
+
+/* Spec strip */
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1.5px solid var(--ink);border-radius:4px;margin:16px 0;overflow:hidden}
+.spec{padding:14px 16px;border-right:1px solid var(--rule);min-width:0}
+.spec:last-child{border-right:0}
+.spec .v{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.spec .v small{font-size:15px;font-weight:700;margin-left:2px}
+.spec .l{font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.3}
+
+/* Click scale */
+.scale{margin:18px 0 8px}
+.scale svg{width:100%;height:auto;display:block}
+.fig{margin:18px 0 6px}
+.fig svg{width:100%;height:auto;display:block;max-width:640px;margin:0 auto}
+.cap{font-size:13px;color:var(--ink-soft);text-align:center;margin-top:6px}
+
+/* Back page */
+.back{margin-top:24px;border-top:6px solid var(--ink);padding-top:28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 32px;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+.back p{margin:0}
+.back .c2{text-align:center}
+.back .c3{text-align:right;display:grid;justify-items:end;gap:8px;align-content:start}
+.back .addr b{color:var(--ink)}
+.back .web{font-family:var(--font-display);font-stretch:115%;font-weight:800;font-size:17px;color:var(--teal-ink);text-decoration:none}
+.back img{width:170px;height:auto;border-radius:4px;display:block}
+@media (max-width:620px){.back{grid-template-columns:1fr}.back .c2,.back .c3{text-align:left;justify-items:start}}
+
+a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@page{size:Letter;margin:0.45in 0.5in}
+@media print{
+  html,body{background:#fff!important;font-size:14px}
+  :root{padding:0!important}
+  .wrap{max-width:none;padding:0!important}
+  .toc{display:none}
+  .cover{border-radius:6px}
+  .cover-in{max-width:none;padding:0.4in 0.4in 0.4in!important;padding-left:0.4in!important;padding-right:0.4in!important;gap:18px}
+  .cover h1{font-size:44px}
+  .logo{width:200px}
+  .chapter{border:0;border-radius:0;margin:0;padding:0;break-before:page}
+  .chapter.first{break-before:auto;margin-top:22px}
+  .chapter.cont{break-before:auto;margin-top:26px}
+  .chapter::before{display:none}
+  .ch-head{margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid var(--teal)}
+  .ch-num{font-size:34px}
+  h2{font-size:26px}
+  h3{margin:18px 0 8px;font-size:16px}
+  h4{margin:14px 0 4px;font-size:14px}
+  p{margin:0 0 8px}
+  .lead{font-size:15px}
+  .pb{break-before:page}
+  .callouts{gap:6px;margin:10px 0 4px}
+  .callout{padding:8px 12px}
+  ol.steps{gap:6px;margin:8px 0}
+  ol.steps li::before{width:24px;height:24px;font-size:11px}
+  ol.steps.small li::before{width:22px;height:22px;font-size:10px}
+  ol.steps li{grid-template-columns:28px 1fr}
+  ul.ticks{gap:6px}
+  td{padding:6px 10px 6px 0}
+  th{padding:6px 10px 6px 0}
+  table{font-size:14px}
+  .split{margin:8px 0}
+  .card{padding:10px 14px}
+  .specs{margin:10px 0}
+  .fig svg{max-width:400px}
+  .tier-name{font-size:18px}
+  .tiers{gap:8px;margin:10px 0 8px}
+  .tier ul{padding:10px 12px;gap:8px}
+  .tier header{padding:10px 12px}
+  .tier,.key div,.callout,table,tr,figure,.split,.specs,.scale,ol.steps li,ul.ticks li,.back,.card{break-inside:avoid}
+  h2,h3,h4,.ch-head{break-after:avoid}
+  .back{margin-top:36px;font-size:11.5px;gap:16px 24px}
+  .back img{width:140px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="cover">
+  <div class="cover-in">
+    <img class="logo" src="data:image/jpeg;base64,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" alt="Shaftworks">
+    <div>
+      <div class="eyebrow">Owner's manual · Coilover kit</div>
+      <h1>Bilanx Owners Manual</h1>
+      <p class="sub">Installation, ride height, damper adjustment and setup data.</p>
+    </div>
+    <div class="cover-meta"><span>Issued <b>2026-11-07</b></span><span>Adjuster <b>0–32 clicks</b></span><span>Shaftworks USA · Chino, CA</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav aria-label="Contents">
+    <ul class="toc">
+      <li><a href="#kit"><span>01</span>Kit contents</a></li>
+      <li><a href="#mounting"><span>02</span>Mounting</a></li>
+      <li><a href="#adjustments"><span>03</span>Adjustments</a></li>
+      <li><a href="#setup"><span>04</span>Setup data</a></li>
+      <li><a href="#tuning"><span>05</span>Tuning guide</a></li>
+    </ul>
+  </nav>
+
+  <section class="chapter first" id="kit">
+    <div class="ch-head"><span class="ch-num">01</span><h2>Kit contents</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Description</th><th style="text-align:right">Pcs</th></tr></thead>
+      <tbody>
+        <tr><td>Front coilover assembly</td><td class="num" style="text-align:right">2</td></tr>
+        <tr><td>Rear coilover assembly</td><td class="num" style="text-align:right">2</td></tr>
+        <tr><td>Spanner wrench</td><td class="num" style="text-align:right">2</td></tr>
+        <tr><td>Setup sheet</td><td class="num" style="text-align:right">1</td></tr>
+        <tr><td>Owner's manual</td><td class="num" style="text-align:right">1</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callouts">
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Note</span><p>Before you install this product, check the kit contents. If anything is missing, contact Shaftworks USA.</p></div></div>
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Note</span><p>There can be small differences between your product and the images in these instructions.</p></div></div>
+      <div class="callout warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 22.5 21H1.5Z" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="9" width="2" height="6.5" fill="var(--warn)"/><rect x="11" y="17" width="2" height="2" fill="var(--warn)"/></svg><div><span class="tag">Warning</span><p>Read this manual before you install this product. Suspension is an important part of the vehicle and its stability.</p></div></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="mounting">
+    <div class="ch-head"><span class="ch-num">02</span><h2>Mounting instructions</h2></div>
+    <div class="callouts">
+      <div class="callout warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 22.5 21H1.5Z" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="9" width="2" height="6.5" fill="var(--warn)"/><rect x="11" y="17" width="2" height="2" fill="var(--warn)"/></svg><div><span class="tag">Warning</span><p>We strongly recommend having this product installed by a qualified shop.</p></div></div>
+      <div class="callout warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 22.5 21H1.5Z" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="9" width="2" height="6.5" fill="var(--warn)"/><rect x="11" y="17" width="2" height="2" fill="var(--warn)"/></svg><div><span class="tag">Warning</span><p>If you work with a lifted vehicle, make sure it is safely supported so it cannot tip over.</p></div></div>
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Note</span><p>See the vehicle service manual for vehicle-specific procedures and torque values.</p></div></div>
+    </div>
+    <ol class="steps">
+      <li><div>Raise the vehicle and put it on jack stands at the factory lift points.</div></li>
+      <li><div>Remove the wheels.</div></li>
+      <li><div>Remove the upper and lower attachments and remove the original shock absorbers.</div></li>
+      <li><div>Install the Bilanx coilovers on the vehicle.</div></li>
+      <li><div>Fasten the upper and lower attachments. Tighten to the factory torque values.</div></li>
+      <li><div>Secure brake hoses and ABS wires so they cannot touch the coilover.</div></li>
+      <li><div>Reinstall all removed parts the same way they were before installation.</div></li>
+      <li><div>Set ride height and check bump travel and droop before driving (see <a href="#adjustments">Adjustments</a>).</div></li>
+      <li><div>Have the vehicle aligned.</div></li>
+    </ol>
+    <div class="callouts">
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Note</span><p>Make sure all bolts are tightened to the correct torque, and that nothing fouls or restricts the coilover at full compression, full extension and full steering lock.</p></div></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="adjustments">
+    <div class="ch-head"><span class="ch-num">03</span><h2>Adjustments</h2></div>
+    <div class="callouts">
+      <div class="callout warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 22.5 21H1.5Z" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="9" width="2" height="6.5" fill="var(--warn)"/><rect x="11" y="17" width="2" height="2" fill="var(--warn)"/></svg><div><span class="tag">Warning</span><p>Before you drive, make sure the setup matches the recommended setup data. Contact Shaftworks USA if you have any questions about setting up.</p></div></div>
+    </div>
+    <p class="lead" style="margin-top:16px">Your recommended damping and spring rates are on the setup sheet in the box.</p>
+    <h4>Check your dampers for a "Do not adjust" sticker.</h4>
+    <div class="split">
+      <div class="card hot"><div class="k"><span class="sticker">Do not adjust</span> Sticker present</div><p>Damper length has been set for your car. Do not move the lower mount. Set ride height with the spring seat only.</p></div>
+      <div class="card"><div class="k">No sticker</div><p>Damper length is not pre-set. You must check bump travel and droop for your car before driving.</p></div>
+    </div>
+    <p>Adjust in this order: <strong>ride height and travel, then damping, then tuning.</strong> Re-check alignment after any height change.</p>
+
+    <h3>Ride height and travel</h3>
+    <p>Ride height is set with the <strong>spring seat</strong>. Damper length is set at the <strong>lower mount</strong> and controls how travel is split between bump (compression) and droop (extension). A loose or preloaded spring at your chosen height is normal and does not change how the car handles.</p>
+    <ol class="steps small">
+      <li><div>Loosen the lock ring with the supplied spanner.</div></li>
+      <li><div>Wind the spring seat up to raise the car, or down to lower it. Match left and right.</div></li>
+      <li><div>Tighten the lock ring against the seat.</div></li>
+      <li><div>Settle the car (roll it back and forth), then measure hub center to fender lip at each corner.</div></li>
+    </ol>
+
+    <h4>Check droop: keep at least <span class="mono">50 mm</span> below ride height</h4>
+    <ol class="steps small">
+      <li><div>Measure tire bottom to fender at ride height.</div></li>
+      <li><div>Lift both wheels on that axle off the ground and measure again.</div></li>
+      <li><div>The difference is your droop.</div></li>
+    </ol>
+
+    <h4 class="pb">Check bump travel: keep at least <span class="mono">35 mm</span> at ride height</h4>
+    <ol class="steps small">
+      <li><div>At ride height, slide the bump stop down the shaft until it touches the damper body.</div></li>
+      <li><div>Fit a zip tie on the shaft against the seal.</div></li>
+      <li><div>Drive the car normally (or a few laps), then measure how far the zip tie was pushed up. That is the travel you used.</div></li>
+      <li><div>If the bump stop is fully compressed in normal driving, you need more bump travel.</div></li>
+    </ol>
+    <div class="callouts">
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Under 35 mm with damper length already set?</span><p>With a "Do not adjust" sticker, or the lower mount at the groove limit, you may need a stiffer spring rate for that ride height. Contact us for a recommendation.</p></div></div>
+    </div>
+
+    <h4>No sticker? Balance bump and droop at the lower mount</h4>
+    <p>Then reset ride height with the spring seat.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Change</th><th>Bump travel</th><th>Droop</th><th>Then</th></tr></thead>
+      <tbody>
+        <tr><td>Lower mount down (damper longer)</td><td>Less</td><td>More</td><td>Spring seat down the same amount</td></tr>
+        <tr><td>Lower mount up (damper shorter)</td><td>More</td><td>Less</td><td>Spring seat up the same amount</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:15px;color:var(--ink-soft)">Example: you have 25 mm of droop and want 50 mm → lower mount down 25 mm, spring seat down 25 mm. Ride height stays the same. Re-check bump travel after.</p>
+
+    <h4>Minimum thread engagement</h4>
+    <p>It is marked by the machined groove on the damper body. Never wind the lower mount down far enough to expose the groove. Re-check bump travel and droop after every ride height change.</p>
+    <figure class="fig" style="margin-inline:0">
+      <svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg"><text x="200" y="62" text-anchor="middle" font-size="15" font-weight="700" fill="var(--teal-ink)" font-family="Source Sans 3, sans-serif">OK: groove covered</text><text x="520" y="62" text-anchor="middle" font-size="15" font-weight="700" fill="var(--warn)" font-family="Source Sans 3, sans-serif">Too far: groove exposed</text><rect x="189" y="84" width="22" height="60" fill="none" stroke="var(--ink)" stroke-width="1.25"/><rect x="177" y="144" width="46" height="172" rx="3" fill="none" stroke="var(--ink)" stroke-width="1.25"/><line x1="177" x2="223" y1="204" y2="206" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="208" y2="210" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="212" y2="214" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="216" y2="218" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="220" y2="222" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="224" y2="226" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="228" y2="230" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="232" y2="234" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="236" y2="238" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="240" y2="242" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="244" y2="246" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="248" y2="250" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="252" y2="254" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="256" y2="258" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="260" y2="262" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="264" y2="266" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="268" y2="270" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="272" y2="274" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="276" y2="278" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="280" y2="282" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="284" y2="286" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="288" y2="290" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="292" y2="294" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="296" y2="298" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="300" y2="302" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="304" y2="306" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="308" y2="310" stroke="var(--ink)" stroke-width="0.5"/><line x1="177" x2="223" y1="312" y2="314" stroke="var(--ink)" stroke-width="0.5"/><rect x="169" y="316" width="62" height="8" rx="1.5" fill="none" stroke="var(--ink)" stroke-width="1.25"/><rect x="172" y="324" width="56" height="70" rx="4" fill="none" stroke="var(--ink)" stroke-width="1.25"/><circle cx="200" cy="372" r="10" fill="none" stroke="var(--ink)" stroke-width="1.25"/><circle cx="200" cy="372" r="4.5" fill="none" stroke="var(--ink)" stroke-width="1.25"/><line x1="177" x2="223" y1="330" y2="330" stroke="var(--teal-ink)" stroke-width="2" stroke-dasharray="4 3"/><rect x="509" y="84" width="22" height="60" fill="none" stroke="var(--ink)" stroke-width="1.25"/><rect x="497" y="144" width="46" height="196" rx="3" fill="none" stroke="var(--ink)" stroke-width="1.25"/><line x1="497" x2="543" y1="204" y2="206" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="208" y2="210" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="212" y2="214" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="216" y2="218" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="220" y2="222" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="224" y2="226" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="228" y2="230" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="232" y2="234" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="236" y2="238" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="240" y2="242" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="244" y2="246" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="248" y2="250" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="252" y2="254" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="256" y2="258" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="260" y2="262" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="264" y2="266" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="268" y2="270" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="272" y2="274" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="276" y2="278" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="280" y2="282" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="284" y2="286" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="288" y2="290" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="292" y2="294" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="296" y2="298" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="300" y2="302" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="304" y2="306" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="308" y2="310" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="312" y2="314" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="316" y2="318" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="320" y2="322" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="324" y2="326" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="328" y2="330" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="332" y2="334" stroke="var(--ink)" stroke-width="0.5"/><line x1="497" x2="543" y1="336" y2="338" stroke="var(--ink)" stroke-width="0.5"/><rect x="489" y="340" width="62" height="8" rx="1.5" fill="none" stroke="var(--ink)" stroke-width="1.25"/><rect x="492" y="348" width="56" height="70" rx="4" fill="none" stroke="var(--ink)" stroke-width="1.25"/><circle cx="520" cy="396" r="10" fill="none" stroke="var(--ink)" stroke-width="1.25"/><circle cx="520" cy="396" r="4.5" fill="none" stroke="var(--ink)" stroke-width="1.25"/><line x1="497" x2="543" y1="330" y2="330" stroke="var(--warn)" stroke-width="2.5"/><text x="166" y="184" text-anchor="end" font-size="12" font-weight="400" fill="var(--ink-soft)" font-family="Source Sans 3, sans-serif">Damper body</text><text x="160" y="324" text-anchor="end" font-size="12" font-weight="400" fill="var(--ink-soft)" font-family="Source Sans 3, sans-serif">Lock ring</text><text x="160" y="366" text-anchor="end" font-size="12" font-weight="400" fill="var(--ink-soft)" font-family="Source Sans 3, sans-serif">Lower mount</text><text x="240" y="334" text-anchor="start" font-size="12" font-weight="400" fill="var(--ink)" font-family="Source Sans 3, sans-serif">Groove inside mount</text><text x="560" y="326" text-anchor="start" font-size="12" font-weight="700" fill="var(--warn)" font-family="Source Sans 3, sans-serif">Machined groove visible</text><text x="560" y="342" text-anchor="start" font-size="12" font-weight="400" fill="var(--ink)" font-family="Source Sans 3, sans-serif">Wind the mount back up</text></svg>
+      <figcaption class="cap">Lower mount limit: the machined groove on the damper body must stay covered.</figcaption>
+    </figure>
+
+    <h3 class="pb">Damper adjustment</h3>
+    <p>The adjuster on top of each damper has <strong>about 32 clicks</strong> of range. Clockwise is firmer, counterclockwise is softer, and it stops at both ends.</p>
+    <ul class="ticks">
+      <li><strong>Count from full firm.</strong> Turn clockwise gently until it stops: that is <span class="mono">0</span>. Count clicks counterclockwise from there (1, 2, 3… to about 32, full soft).</li>
+      <li><strong>Start from the setup sheet.</strong> Your recommended setting for each corner is on the setup sheet. Return to it whenever you lose track.</li>
+      <li><strong>Change one end at a time,</strong> 2 clicks at a time, and drive the same road or track to compare.</li>
+      <li><strong>Keep left and right the same</strong> unless you are corner-tuning on purpose.</li>
+      <li><strong>Never force the adjuster</strong> past its stop. It is a needle valve and can be damaged.</li>
+    </ul>
+
+    <h3>Bilanx ONE, P2 and P3 adjusters</h3>
+    <p>Bilanx dampers come in three levels. Each step up adds an adjuster, so you can tune more of the damper's behavior separately.</p>
+    <div class="tiers"><article class="tier t1"><header><div class="tier-name">Bilanx ONE</div><div class="tier-kind">Single adjustable</div><div class="tier-count"><b>1</b> adjuster</div></header><ul><li class="adj"><div class="adj-top"><span class="adj-name">Damping</span><span class="adj-clicks">32<small> clicks</small></span></div><div class="adj-loc">Top of damper</div><div class="bar"><span style="width:100%"></span></div></li></ul></article><article class="tier t2"><header><div class="tier-name">Bilanx P2</div><div class="tier-kind">Double adjustable</div><div class="tier-count"><b>2</b> adjusters</div></header><ul><li class="adj"><div class="adj-top"><span class="adj-name">Rebound</span><span class="adj-clicks">32<small> clicks</small></span></div><div class="adj-loc">Top of piston rod</div><div class="bar"><span style="width:100%"></span></div></li><li class="adj"><div class="adj-top"><span class="adj-name">Compression</span><span class="adj-clicks">22<small> clicks</small></span></div><div class="adj-loc">Reservoir</div><div class="bar"><span style="width:69%"></span></div></li></ul></article><article class="tier t3"><header><div class="tier-name">Bilanx P3</div><div class="tier-kind">Triple adjustable</div><div class="tier-count"><b>3</b> adjusters</div></header><ul><li class="adj"><div class="adj-top"><span class="adj-name">Rebound</span><span class="adj-clicks">32<small> clicks</small></span></div><div class="adj-loc">Top of piston rod</div><div class="bar"><span style="width:100%"></span></div></li><li class="adj"><div class="adj-top"><span class="adj-name">Low-speed compression</span><span class="adj-clicks">25<small> clicks</small></span></div><div class="adj-loc">Reservoir</div><div class="bar"><span style="width:78%"></span></div></li><li class="adj"><div class="adj-top"><span class="adj-name">High-speed compression</span><span class="adj-clicks">17<small> clicks</small></span></div><div class="adj-loc">Reservoir</div><div class="bar"><span style="width:53%"></span></div></li></ul></article></div>
+    <dl class="key">
+      <div><dt>Rebound</dt><dd>How fast the damper extends: body control and how quickly the wheel returns.</dd></div>
+      <div><dt>Compression</dt><dd>Resistance to compressing.</dd></div>
+      <div><dt>Low-speed compression</dt><dd>Slow movements: roll, dive, squat and weight transfer.</dd></div>
+      <div><dt>High-speed compression</dt><dd>Fast movements: bumps, curbs and sharp edges.</dd></div>
+    </dl>
+    <ol class="steps small pb">
+      <li><div>Start from the settings on your setup sheet.</div></li>
+      <li><div>Count every adjuster from full firm, the same as the single adjustable. Turn clockwise gently until it stops: that is <span class="mono">0</span>. Count clicks counterclockwise from there.</div></li>
+      <li><div>Never force a knob past its stop at either end.</div></li>
+      <li><div>Set rebound first, then compression.</div></li>
+      <li><div>Change one adjuster, at one end of the car, 1–2 clicks at a time, and drive the same road or track to compare.</div></li>
+      <li><div>Keep left and right the same unless you are corner-tuning on purpose.</div></li>
+      <li><div>Write down every change.</div></li>
+    </ol>
+    <div class="callouts">
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">P3 tuning tips</span><p>If the car rolls, dives or squats too much, add low-speed compression. If it feels harsh or skips over bumps and curbs, soften high-speed compression.</p></div></div>
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Note</span><p>Route reservoir hoses so they cannot touch the tire, brakes or exhaust through full travel and full steering lock. Secure them with zip ties.</p></div></div>
+    </div>
+
+    <h3>Remote reservoir quick disconnect</h3>
+    <div class="callouts">
+      <div class="callout warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 22.5 21H1.5Z" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="9" width="2" height="6.5" fill="var(--warn)"/><rect x="11" y="17" width="2" height="2" fill="var(--warn)"/></svg><div><span class="tag">Warning</span><p>Never drive the car or cycle a damper with its reservoir disconnected. This damages the damper internals.</p></div></div>
+      <div class="callout warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 22.5 21H1.5Z" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="9" width="2" height="6.5" fill="var(--warn)"/><rect x="11" y="17" width="2" height="2" fill="var(--warn)"/></svg><div><span class="tag">Warning</span><p>The reservoir is charged with high-pressure nitrogen. Release all pressure before disconnecting.</p></div></div>
+    </div>
+    <div class="split">
+      <div class="card"><div class="k">Disconnecting</div>
+        <ol class="steps small">
+          <li><div>Unload the damper. Put the car on jack stands and disconnect the anti-roll bar so the wheels hang at full droop, or remove the damper from the car.</div></li>
+          <li><div>Release all nitrogen pressure through the Schrader valve on the reservoir. Make sure no pressure is left.</div></li>
+          <li><div>Disconnect the reservoir at the quick disconnect. Keep both sides of the fitting clean.</div></li>
+        </ol></div>
+      <div class="card"><div class="k">Reconnecting</div>
+        <ol class="steps small">
+          <li><div>Check both sides of the fitting are clean, then connect the reservoir fully.</div></li>
+          <li><div>With the damper at full droop, charge the reservoir with nitrogen only (never air) to <strong>180 psi</strong> using a gauge.</div></li>
+          <li><div>The damper is ready to use.</div></li>
+        </ol></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="setup">
+    <div class="ch-head"><span class="ch-num">04</span><h2>Setup data</h2></div>
+    <div class="specs">
+      <div class="spec"><div class="v">0–32</div><div class="l">Adjuster range, clicks from full firm</div></div>
+      <div class="spec"><div class="v">35<small>mm</small></div><div class="l">Minimum bump travel at ride height</div></div>
+      <div class="spec"><div class="v">50<small>mm</small></div><div class="l">Minimum droop at ride height</div></div>
+    </div>
+    <div class="tbl"><table>
+      <tbody>
+        <tr><td>Lower mount limit</td><td>Machined groove on damper body must stay covered</td></tr>
+        <tr><td>Spring rates and recommended damping</td><td>See setup sheet</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Rebound starting points</h3>
+    <p style="color:var(--ink-soft)">Clicks counterclockwise from full firm (0) to full soft (32).</p>
+    <div class="scale" role="img" aria-label="Rebound click scale: Racing Slicks 4 to 12, Track Day 12 to 24, Driving Home 24 to 32">
+      <svg viewBox="0 0 720 112" xmlns="http://www.w3.org/2000/svg"><rect x="109.0" y="30" width="166.0" height="16" fill="var(--ink)" fill-opacity="1"/><text x="192.0" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="Source Sans 3, sans-serif">Racing Slicks</text><rect x="277.0" y="30" width="250.0" height="16" fill="var(--teal-ink)" fill-opacity="1"/><text x="402.0" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="Source Sans 3, sans-serif">Track Day</text><rect x="529.0" y="30" width="166.0" height="16" fill="var(--teal)" fill-opacity="1"/><text x="612.0" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="Source Sans 3, sans-serif">Driving Home</text><line x1="24" x2="696" y1="54" y2="54" stroke="var(--ink)" stroke-width="1.5"/><line x1="24.0" x2="24.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="45.0" x2="45.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="66.0" x2="66.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="87.0" x2="87.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="108.0" x2="108.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="129.0" x2="129.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="150.0" x2="150.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="171.0" x2="171.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="192.0" x2="192.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="213.0" x2="213.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="234.0" x2="234.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="255.0" x2="255.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="276.0" x2="276.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="297.0" x2="297.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="318.0" x2="318.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="339.0" x2="339.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="360.0" x2="360.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="381.0" x2="381.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="402.0" x2="402.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="423.0" x2="423.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="444.0" x2="444.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="465.0" x2="465.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="486.0" x2="486.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="507.0" x2="507.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="528.0" x2="528.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="549.0" x2="549.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="570.0" x2="570.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="591.0" x2="591.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="612.0" x2="612.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><line x1="633.0" x2="633.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="654.0" x2="654.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="675.0" x2="675.0" y1="54" y2="59" stroke="var(--ink-soft)" stroke-width="1"/><line x1="696.0" x2="696.0" y1="54" y2="64" stroke="var(--ink-soft)" stroke-width="1"/><text x="24.0" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="JetBrains Mono, monospace">0</text><text x="108.0" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="JetBrains Mono, monospace">4</text><text x="276.0" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="JetBrains Mono, monospace">12</text><text x="528.0" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="JetBrains Mono, monospace">24</text><text x="696.0" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="JetBrains Mono, monospace">32</text><text x="24" y="100" font-size="12" fill="var(--ink-soft)" font-family="Source Sans 3, sans-serif">Full firm</text><text x="696" y="100" text-anchor="end" font-size="12" fill="var(--ink-soft)" font-family="Source Sans 3, sans-serif">Full soft</text></svg>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Use</th><th>Rebound (clicks)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="dot" style="background:var(--ink)"></span>Racing Slicks</td><td class="num">4–12</td></tr>
+        <tr><td><span class="dot" style="background:var(--teal-ink)"></span>Track Day / Performance Driving</td><td class="num">12–24</td></tr>
+        <tr><td><span class="dot" style="background:var(--teal)"></span>Driving Home</td><td class="num">24–32</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callouts">
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Need 0–4 clicks?</span><p>If you need to run 0–4 clicks, contact Shaftworks USA about revalving.</p></div></div>
+    </div>
+
+    <h3>Recommended service</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Use</th><th>Service interval</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Competition vehicles</strong> (optimal, consistent performance)</td><td class="num">Every 2 years</td></tr>
+        <tr><td><strong>Racing</strong></td><td>As often as desired; <span class="mono">2–5 years</span> is expected</td></tr>
+        <tr><td><strong>Street use</strong></td><td>Every <span class="mono">18,000 miles</span> or <span class="mono">5 years</span>, whichever comes first</td></tr>
+      </tbody>
+    </table></div>
+    <p style="color:var(--ink-soft)">Contact Shaftworks USA to schedule a rebuild.</p>
+  </section>
+
+  <section class="chapter" id="tuning">
+    <div class="ch-head"><span class="ch-num">05</span><h2>Tuning guide</h2></div>
+    <p>Fix handling one change at a time, starting with the first item in each row. Understeer means the front slides wide; oversteer means the rear steps out.</p>
+    <div class="tbl"><table>
+      <thead><tr><th style="width:36%">If the car…</th><th>Try (in order)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Understeers on corner entry</strong></td><td>Softer front damping · firmer rear damping · raise rear height · firmer rear bar</td></tr>
+        <tr><td><strong>Understeers mid-corner / exit</strong></td><td>Firmer rear damping · firmer rear bar · stiffer rear spring</td></tr>
+        <tr><td><strong>Oversteers</strong></td><td>Softer rear damping · lower rear height · softer rear bar · stiffer front spring</td></tr>
+        <tr><td><strong>Lacks traction under power</strong></td><td>Softer damping on the drive wheels · softer bar on the drive axle</td></tr>
+        <tr><td><strong>Unsettled under braking</strong></td><td>Softer front damping · firmer rear damping</td></tr>
+        <tr><td><strong>Hits bump stops or bottoms out</strong></td><td>More ride height · firmer damping · stiffer spring (last resort)</td></tr>
+        <tr><td><strong>Feels harsh over bumps</strong></td><td>Soften damping 2 clicks at a time on the harsh end</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callouts" style="margin-top:18px">
+      <div class="callout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--teal-ink)" stroke-width="2"/><rect x="11" y="10" width="2" height="7" fill="var(--teal-ink)"/><rect x="11" y="6.5" width="2" height="2" fill="var(--teal-ink)"/></svg><div><span class="tag">Still not right?</span><p>Contact Shaftworks USA at <strong>sales@shaftworksusa.com</strong> with your settings and a description of the problem.</p></div></div>
+    </div>
+  </section>
+
+  <footer class="back">
+    <p>Shaftworks USA products are subject to continuous improvement and development. These instructions include the most up-to-date information available at the time of issue, but minor updates may occur.</p>
+    <p class="c2">For the latest information or any questions about this document, contact Shaftworks USA.</p>
+    <p class="c3"><span>Bilanx Owners Manual</span><span>Issued 2026-11-07</span></p>
+    <p>© Shaftworks USA. All rights reserved. Any reprinting or unauthorized use without the written permission of Shaftworks USA is prohibited.</p>
+    <p class="c2 addr"><b>Shaftworks USA</b><br>13415 5th St Suite D<br>Chino, CA 91710<br>sales@shaftworksusa.com</p>
+    <div class="c3"><img src="data:image/jpeg;base64,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" alt="Shaftworks"><a class="web" href="https://www.shaftworksusa.com">www.shaftworksusa.com</a></div>
+  </footer>
+</main>

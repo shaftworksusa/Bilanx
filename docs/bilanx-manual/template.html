@@ -1,0 +1,461 @@
+<title>Bilanx Owners Manual</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira:ital,wdth,wght@0,50..125,400..900;1,50..125,400..900&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a printed owner's manual — black brand cover band, then sheet-like chapters on a quiet ground, teal used only for the brand accent and the click scale. */
+:root{
+  --ground:#eef1f1;
+  --glow-a:rgba(31,184,170,.22);
+  --glow-b:rgba(18,21,21,.07);
+  --grad-top:#f7fafa;
+  --grad-bot:#dfe7e7;
+  --sheet:#ffffff;
+  --ink:#121515;
+  --ink-soft:#2c3535;
+  --rule:#b9c6c6;
+  --teal:#1fb8aa;
+  --teal-ink:#06615a;
+  --teal-wash:#e2f5f2;
+  --warn:#a8360a;
+  --warn-wash:#fdeee4;
+  --band:#0b0d0d;
+  --band-ink:#f2f6f6;
+  --font-display:"Saira","Arial Black",Arial,sans-serif;
+  --font-body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#090b0b;--glow-a:rgba(47,211,195,.16);--glow-b:rgba(255,255,255,.04);--grad-top:#0d1111;--grad-bot:#050606;--sheet:#131717;--ink:#e8eeee;--ink-soft:#ccd7d7;--rule:#3d4a4a;
+  --teal:#2fd3c3;--teal-ink:#5fe3d6;--teal-wash:#0f2a28;--warn:#fb8a4a;--warn-wash:#2b1a10;
+  --band:#000000;--band-ink:#f2f6f6;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ground:#090b0b;--glow-a:rgba(47,211,195,.16);--glow-b:rgba(255,255,255,.04);--grad-top:#0d1111;--grad-bot:#050606;--sheet:#131717;--ink:#e8eeee;--ink-soft:#ccd7d7;--rule:#3d4a4a;
+  --teal:#2fd3c3;--teal-ink:#5fe3d6;--teal-wash:#0f2a28;--warn:#fb8a4a;--warn-wash:#2b1a10;
+  --band:#000000;--band-ink:#f2f6f6;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 700px at 100% 0%,var(--glow-a),transparent 60%),radial-gradient(900px 600px at 0% 100%,var(--glow-a),transparent 65%),repeating-linear-gradient(-72deg,var(--glow-b) 0 2px,transparent 2px 46px),linear-gradient(180deg,var(--grad-top),var(--grad-bot)) var(--ground);min-height:100vh;color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+
+/* Cover */
+.cover{background:var(--band);color:var(--band-ink);position:relative;overflow:hidden}
+.cover-in{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 56px;position:relative;z-index:1;display:grid;gap:28px}
+.cover::after{content:"";position:absolute;right:-20%;top:0;bottom:0;width:46%;background:var(--teal);transform:skewX(-18deg);opacity:.95}
+.cover::before{content:"";position:absolute;right:23%;top:0;bottom:0;width:10px;background:var(--teal);transform:skewX(-18deg);opacity:.95;z-index:1}
+.logo{width:min(260px,62%);height:auto;display:block;border-radius:6px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.cover h1{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:clamp(34px,7vw,64px);line-height:.95;letter-spacing:-.01em;margin:6px 0 0;text-wrap:balance;max-width:11ch}
+.cover p.sub{margin:14px 0 0;font-size:18px;color:#e4ecec;max-width:38ch}
+.cover-meta{display:flex;flex-wrap:wrap;gap:10px 28px;font-family:var(--font-mono);font-size:13px;color:#e4ecec}
+.cover-meta b{color:var(--band-ink);font-weight:700}
+
+/* Contents strip */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 8px;padding:0;list-style:none}
+.toc a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);border-radius:999px;padding:6px 14px 6px 6px;font-weight:600;font-size:14px}
+.toc a span{font-family:var(--font-mono);font-size:11px;background:var(--ink);color:var(--sheet);border-radius:999px;padding:3px 8px}
+.toc a:hover,.toc a:focus-visible{border-color:var(--teal);outline:none}
+
+/* Chapters */
+.chapter{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;margin-top:24px;padding:36px clamp(18px,4vw,48px) 40px;position:relative}
+.chapter::before{content:"";position:absolute;left:-1px;top:28px;width:6px;height:44px;background:var(--teal)}
+.ch-head{display:flex;align-items:baseline;gap:16px;margin-bottom:18px}
+.ch-num{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:44px;line-height:1;color:var(--teal-ink)}
+h2{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:clamp(24px,4vw,32px);line-height:1.1;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+h3{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:19px;margin:34px 0 10px;text-transform:uppercase;letter-spacing:.03em;display:flex;align-items:center;gap:10px}
+h3::before{content:"";width:18px;height:4px;background:var(--teal);transform:skewX(-20deg)}
+h4{font-family:var(--font-body);font-weight:700;font-size:17px;margin:24px 0 6px}
+p{margin:0 0 12px;max-width:68ch}
+.lead{font-size:18px;color:var(--ink)}
+strong{font-weight:700}
+.tbd{background:var(--warn-wash);color:var(--warn);font-family:var(--font-mono);font-weight:700;font-size:.85em;padding:1px 5px;border-radius:3px}
+.mono{font-family:var(--font-mono);font-weight:700;font-size:.92em}
+
+
+/* Damper tiers */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 12px}
+.tier{border:1.5px solid var(--rule);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--sheet)}
+.tier header{padding:14px 16px 12px;background:var(--band);color:var(--band-ink)}
+.tier.t2 header{background:linear-gradient(135deg,var(--band) 55%,var(--teal-ink))}
+.tier.t3 header{background:linear-gradient(135deg,var(--band) 35%,var(--teal))}
+.tier.t3{border-color:var(--teal)}
+.tier-name{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-style:italic;font-size:22px;line-height:1.05}
+.tier-kind{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:4px}
+.tier.t3 .tier-kind{color:var(--band-ink)}
+.tier-count{margin-top:10px;font-size:13px;color:#d9e3e3}
+.tier-count b{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:26px;color:var(--band-ink);margin-right:4px;vertical-align:-3px}
+.tier ul{list-style:none;margin:0;padding:12px 16px 14px;display:grid;gap:12px}
+.adj-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.adj-name{font-weight:700;line-height:1.25}
+.adj-clicks{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:20px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.adj-clicks small{font-family:var(--font-body);font-stretch:100%;font-weight:600;font-size:11px;color:var(--ink-soft)}
+.adj-loc{font-size:12.5px;color:var(--ink-soft)}
+.bar{height:6px;background:var(--rule);border-radius:3px;margin-top:6px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--teal-ink);border-radius:3px}
+.key{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 20px;margin:0 0 12px;font-size:14px}
+.key dt{font-weight:700}
+.key dd{margin:0;color:var(--ink-soft)}
+@media (max-width:640px){.tiers,.key{grid-template-columns:1fr}}
+
+/* Callouts */
+.callouts{display:grid;gap:10px;margin:16px 0 4px}
+.callout{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 16px;border-radius:4px;background:var(--teal-wash);border-left:4px solid var(--teal)}
+.callout.warn{background:var(--warn-wash);border-left-color:var(--warn)}
+.callout svg{width:22px;height:22px;margin-top:1px}
+.callout .tag{font-family:var(--font-display);font-stretch:110%;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:12px;display:block;color:var(--teal-ink)}
+.callout.warn .tag{color:var(--warn)}
+.callout p{margin:2px 0 0}
+
+/* Steps */
+ol.steps{list-style:none;counter-reset:s;margin:14px 0;padding:0;display:grid;gap:10px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+ol.steps li::before{content:counter(s);font-family:var(--font-mono);font-weight:700;font-size:14px;width:30px;height:30px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%}
+ol.steps.small li::before{width:26px;height:26px;font-size:12px;border-width:1.5px;border-color:var(--teal-ink);color:var(--teal-ink)}
+ol.steps li > div{padding-top:3px}
+
+ul.ticks{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}
+ul.ticks li{padding-left:22px;position:relative}
+ul.ticks li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:3px;background:var(--teal);transform:skewX(-20deg)}
+
+/* Tables */
+.tbl{overflow-x:auto;margin:14px 0 6px}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th{font-family:var(--font-display);font-stretch:110%;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.06em;text-align:left;color:var(--ink);border-bottom:2px solid var(--ink);padding:8px 12px 8px 0}
+td{border-bottom:1px solid var(--rule);padding:10px 12px 10px 0;vertical-align:top}
+td.num{font-family:var(--font-mono);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px}
+
+/* Sticker cards */
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.card{border:1.5px solid var(--rule);border-radius:4px;padding:16px 18px;min-width:0}
+.card .k{font-family:var(--font-display);font-stretch:110%;font-weight:800;text-transform:uppercase;font-size:13px;letter-spacing:.05em;display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.card.hot{border-color:var(--ink)}
+.sticker{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;border:1.5px solid currentColor;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.card p{margin:0}
+
+/* Spec strip */
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1.5px solid var(--ink);border-radius:4px;margin:16px 0;overflow:hidden}
+.spec{padding:14px 16px;border-right:1px solid var(--rule);min-width:0}
+.spec:last-child{border-right:0}
+.spec .v{font-family:var(--font-display);font-stretch:125%;font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.spec .v small{font-size:15px;font-weight:700;margin-left:2px}
+.spec .l{font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.3}
+
+/* Click scale */
+.scale{margin:18px 0 8px}
+.scale svg{width:100%;height:auto;display:block}
+.fig{margin:18px 0 6px}
+.fig svg{width:100%;height:auto;display:block;max-width:640px;margin:0 auto}
+.cap{font-size:13px;color:var(--ink-soft);text-align:center;margin-top:6px}
+
+/* Back page */
+.back{margin-top:24px;border-top:6px solid var(--ink);padding-top:28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 32px;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+.back p{margin:0}
+.back .c2{text-align:center}
+.back .c3{text-align:right;display:grid;justify-items:end;gap:8px;align-content:start}
+.back .addr b{color:var(--ink)}
+.back .web{font-family:var(--font-display);font-stretch:115%;font-weight:800;font-size:17px;color:var(--teal-ink);text-decoration:none}
+.back img{width:170px;height:auto;border-radius:4px;display:block}
+@media (max-width:620px){.back{grid-template-columns:1fr}.back .c2,.back .c3{text-align:left;justify-items:start}}
+
+a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+@page{size:Letter;margin:0.45in 0.5in}
+@media print{
+  html,body{background:#fff!important;font-size:14px}
+  :root{padding:0!important}
+  .wrap{max-width:none;padding:0!important}
+  .toc{display:none}
+  .cover{border-radius:6px}
+  .cover-in{max-width:none;padding:0.4in 0.4in 0.4in!important;padding-left:0.4in!important;padding-right:0.4in!important;gap:18px}
+  .cover h1{font-size:44px}
+  .logo{width:200px}
+  .chapter{border:0;border-radius:0;margin:0;padding:0;break-before:page}
+  .chapter.first{break-before:auto;margin-top:22px}
+  .chapter.cont{break-before:auto;margin-top:26px}
+  .chapter::before{display:none}
+  .ch-head{margin-bottom:10px;padding-bottom:8px;border-bottom:3px solid var(--teal)}
+  .ch-num{font-size:34px}
+  h2{font-size:26px}
+  h3{margin:18px 0 8px;font-size:16px}
+  h4{margin:14px 0 4px;font-size:14px}
+  p{margin:0 0 8px}
+  .lead{font-size:15px}
+  .pb{break-before:page}
+  .callouts{gap:6px;margin:10px 0 4px}
+  .callout{padding:8px 12px}
+  ol.steps{gap:6px;margin:8px 0}
+  ol.steps li::before{width:24px;height:24px;font-size:11px}
+  ol.steps.small li::before{width:22px;height:22px;font-size:10px}
+  ol.steps li{grid-template-columns:28px 1fr}
+  ul.ticks{gap:6px}
+  td{padding:6px 10px 6px 0}
+  th{padding:6px 10px 6px 0}
+  table{font-size:14px}
+  .split{margin:8px 0}
+  .card{padding:10px 14px}
+  .specs{margin:10px 0}
+  .fig svg{max-width:400px}
+  .tier-name{font-size:18px}
+  .tiers{gap:8px;margin:10px 0 8px}
+  .tier ul{padding:10px 12px;gap:8px}
+  .tier header{padding:10px 12px}
+  .tier,.key div,.callout,table,tr,figure,.split,.specs,.scale,ol.steps li,ul.ticks li,.back,.card{break-inside:avoid}
+  h2,h3,h4,.ch-head{break-after:avoid}
+  .back{margin-top:36px;font-size:11.5px;gap:16px 24px}
+  .back img{width:140px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="cover">
+  <div class="cover-in">
+    <img class="logo" src="data:image/jpeg;base64,{{LOGO}}" alt="Shaftworks">
+    <div>
+      <div class="eyebrow">Owner's manual · Coilover kit</div>
+      <h1>Bilanx Owners Manual</h1>
+      <p class="sub">Installation, ride height, damper adjustment and setup data.</p>
+    </div>
+    <div class="cover-meta"><span>Issued <b>2026-11-07</b></span><span>Adjuster <b>0–32 clicks</b></span><span>Shaftworks USA · Chino, CA</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav aria-label="Contents">
+    <ul class="toc">
+      <li><a href="#kit"><span>01</span>Kit contents</a></li>
+      <li><a href="#mounting"><span>02</span>Mounting</a></li>
+      <li><a href="#adjustments"><span>03</span>Adjustments</a></li>
+      <li><a href="#setup"><span>04</span>Setup data</a></li>
+      <li><a href="#tuning"><span>05</span>Tuning guide</a></li>
+    </ul>
+  </nav>
+
+  <section class="chapter first" id="kit">
+    <div class="ch-head"><span class="ch-num">01</span><h2>Kit contents</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Description</th><th style="text-align:right">Pcs</th></tr></thead>
+      <tbody>
+        <tr><td>Front coilover assembly</td><td class="num" style="text-align:right">2</td></tr>
+        <tr><td>Rear coilover assembly</td><td class="num" style="text-align:right">2</td></tr>
+        <tr><td>Spanner wrench</td><td class="num" style="text-align:right">2</td></tr>
+        <tr><td>Setup sheet</td><td class="num" style="text-align:right">1</td></tr>
+        <tr><td>Owner's manual</td><td class="num" style="text-align:right">1</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callouts">
+      <div class="callout">{{INFO}}<div><span class="tag">Note</span><p>Before you install this product, check the kit contents. If anything is missing, contact Shaftworks USA.</p></div></div>
+      <div class="callout">{{INFO}}<div><span class="tag">Note</span><p>There can be small differences between your product and the images in these instructions.</p></div></div>
+      <div class="callout warn">{{WARN}}<div><span class="tag">Warning</span><p>Read this manual before you install this product. Suspension is an important part of the vehicle and its stability.</p></div></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="mounting">
+    <div class="ch-head"><span class="ch-num">02</span><h2>Mounting instructions</h2></div>
+    <div class="callouts">
+      <div class="callout warn">{{WARN}}<div><span class="tag">Warning</span><p>We strongly recommend having this product installed by a qualified shop.</p></div></div>
+      <div class="callout warn">{{WARN}}<div><span class="tag">Warning</span><p>If you work with a lifted vehicle, make sure it is safely supported so it cannot tip over.</p></div></div>
+      <div class="callout">{{INFO}}<div><span class="tag">Note</span><p>See the vehicle service manual for vehicle-specific procedures and torque values.</p></div></div>
+    </div>
+    <ol class="steps">
+      <li><div>Raise the vehicle and put it on jack stands at the factory lift points.</div></li>
+      <li><div>Remove the wheels.</div></li>
+      <li><div>Remove the upper and lower attachments and remove the original shock absorbers.</div></li>
+      <li><div>Install the Bilanx coilovers on the vehicle.</div></li>
+      <li><div>Fasten the upper and lower attachments. Tighten to the factory torque values.</div></li>
+      <li><div>Secure brake hoses and ABS wires so they cannot touch the coilover.</div></li>
+      <li><div>Reinstall all removed parts the same way they were before installation.</div></li>
+      <li><div>Set ride height and check bump travel and droop before driving (see <a href="#adjustments">Adjustments</a>).</div></li>
+      <li><div>Have the vehicle aligned.</div></li>
+    </ol>
+    <div class="callouts">
+      <div class="callout">{{INFO}}<div><span class="tag">Note</span><p>Make sure all bolts are tightened to the correct torque, and that nothing fouls or restricts the coilover at full compression, full extension and full steering lock.</p></div></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="adjustments">
+    <div class="ch-head"><span class="ch-num">03</span><h2>Adjustments</h2></div>
+    <div class="callouts">
+      <div class="callout warn">{{WARN}}<div><span class="tag">Warning</span><p>Before you drive, make sure the setup matches the recommended setup data. Contact Shaftworks USA if you have any questions about setting up.</p></div></div>
+    </div>
+    <p class="lead" style="margin-top:16px">Your recommended damping and spring rates are on the setup sheet in the box.</p>
+    <h4>Check your dampers for a "Do not adjust" sticker.</h4>
+    <div class="split">
+      <div class="card hot"><div class="k"><span class="sticker">Do not adjust</span> Sticker present</div><p>Damper length has been set for your car. Do not move the lower mount. Set ride height with the spring seat only.</p></div>
+      <div class="card"><div class="k">No sticker</div><p>Damper length is not pre-set. You must check bump travel and droop for your car before driving.</p></div>
+    </div>
+    <p>Adjust in this order: <strong>ride height and travel, then damping, then tuning.</strong> Re-check alignment after any height change.</p>
+
+    <h3>Ride height and travel</h3>
+    <p>Ride height is set with the <strong>spring seat</strong>. Damper length is set at the <strong>lower mount</strong> and controls how travel is split between bump (compression) and droop (extension). A loose or preloaded spring at your chosen height is normal and does not change how the car handles.</p>
+    <ol class="steps small">
+      <li><div>Loosen the lock ring with the supplied spanner.</div></li>
+      <li><div>Wind the spring seat up to raise the car, or down to lower it. Match left and right.</div></li>
+      <li><div>Tighten the lock ring against the seat.</div></li>
+      <li><div>Settle the car (roll it back and forth), then measure hub center to fender lip at each corner.</div></li>
+    </ol>
+
+    <h4>Check droop: keep at least <span class="mono">50 mm</span> below ride height</h4>
+    <ol class="steps small">
+      <li><div>Measure tire bottom to fender at ride height.</div></li>
+      <li><div>Lift both wheels on that axle off the ground and measure again.</div></li>
+      <li><div>The difference is your droop.</div></li>
+    </ol>
+
+    <h4 class="pb">Check bump travel: keep at least <span class="mono">35 mm</span> at ride height</h4>
+    <ol class="steps small">
+      <li><div>At ride height, slide the bump stop down the shaft until it touches the damper body.</div></li>
+      <li><div>Fit a zip tie on the shaft against the seal.</div></li>
+      <li><div>Drive the car normally (or a few laps), then measure how far the zip tie was pushed up. That is the travel you used.</div></li>
+      <li><div>If the bump stop is fully compressed in normal driving, you need more bump travel.</div></li>
+    </ol>
+    <div class="callouts">
+      <div class="callout">{{INFO}}<div><span class="tag">Under 35 mm with damper length already set?</span><p>With a "Do not adjust" sticker, or the lower mount at the groove limit, you may need a stiffer spring rate for that ride height. Contact us for a recommendation.</p></div></div>
+    </div>
+
+    <h4>No sticker? Balance bump and droop at the lower mount</h4>
+    <p>Then reset ride height with the spring seat.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Change</th><th>Bump travel</th><th>Droop</th><th>Then</th></tr></thead>
+      <tbody>
+        <tr><td>Lower mount down (damper longer)</td><td>Less</td><td>More</td><td>Spring seat down the same amount</td></tr>
+        <tr><td>Lower mount up (damper shorter)</td><td>More</td><td>Less</td><td>Spring seat up the same amount</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:15px;color:var(--ink-soft)">Example: you have 25 mm of droop and want 50 mm → lower mount down 25 mm, spring seat down 25 mm. Ride height stays the same. Re-check bump travel after.</p>
+
+    <h4>Minimum thread engagement</h4>
+    <p>It is marked by the machined groove on the damper body. Never wind the lower mount down far enough to expose the groove. Re-check bump travel and droop after every ride height change.</p>
+    <figure class="fig" style="margin-inline:0">
+      {{GROOVE}}
+      <figcaption class="cap">Lower mount limit: the machined groove on the damper body must stay covered.</figcaption>
+    </figure>
+
+    <h3 class="pb">Damper adjustment</h3>
+    <p>The adjuster on top of each damper has <strong>about 32 clicks</strong> of range. Clockwise is firmer, counterclockwise is softer, and it stops at both ends.</p>
+    <ul class="ticks">
+      <li><strong>Count from full firm.</strong> Turn clockwise gently until it stops: that is <span class="mono">0</span>. Count clicks counterclockwise from there (1, 2, 3… to about 32, full soft).</li>
+      <li><strong>Start from the setup sheet.</strong> Your recommended setting for each corner is on the setup sheet. Return to it whenever you lose track.</li>
+      <li><strong>Change one end at a time,</strong> 2 clicks at a time, and drive the same road or track to compare.</li>
+      <li><strong>Keep left and right the same</strong> unless you are corner-tuning on purpose.</li>
+      <li><strong>Never force the adjuster</strong> past its stop. It is a needle valve and can be damaged.</li>
+    </ul>
+
+    <h3>Bilanx ONE, P2 and P3 adjusters</h3>
+    <p>Bilanx dampers come in three levels. Each step up adds an adjuster, so you can tune more of the damper's behavior separately.</p>
+    <div class="tiers"><article class="tier t1"><header><div class="tier-name">Bilanx ONE</div><div class="tier-kind">Single adjustable</div><div class="tier-count"><b>1</b> adjuster</div></header><ul><li class="adj"><div class="adj-top"><span class="adj-name">Damping</span><span class="adj-clicks">32<small> clicks</small></span></div><div class="adj-loc">Top of damper</div><div class="bar"><span style="width:100%"></span></div></li></ul></article><article class="tier t2"><header><div class="tier-name">Bilanx P2</div><div class="tier-kind">Double adjustable</div><div class="tier-count"><b>2</b> adjusters</div></header><ul><li class="adj"><div class="adj-top"><span class="adj-name">Rebound</span><span class="adj-clicks">32<small> clicks</small></span></div><div class="adj-loc">Top of piston rod</div><div class="bar"><span style="width:100%"></span></div></li><li class="adj"><div class="adj-top"><span class="adj-name">Compression</span><span class="adj-clicks">22<small> clicks</small></span></div><div class="adj-loc">Reservoir</div><div class="bar"><span style="width:69%"></span></div></li></ul></article><article class="tier t3"><header><div class="tier-name">Bilanx P3</div><div class="tier-kind">Triple adjustable</div><div class="tier-count"><b>3</b> adjusters</div></header><ul><li class="adj"><div class="adj-top"><span class="adj-name">Rebound</span><span class="adj-clicks">32<small> clicks</small></span></div><div class="adj-loc">Top of piston rod</div><div class="bar"><span style="width:100%"></span></div></li><li class="adj"><div class="adj-top"><span class="adj-name">Low-speed compression</span><span class="adj-clicks">25<small> clicks</small></span></div><div class="adj-loc">Reservoir</div><div class="bar"><span style="width:78%"></span></div></li><li class="adj"><div class="adj-top"><span class="adj-name">High-speed compression</span><span class="adj-clicks">17<small> clicks</small></span></div><div class="adj-loc">Reservoir</div><div class="bar"><span style="width:53%"></span></div></li></ul></article></div>
+    <dl class="key">
+      <div><dt>Rebound</dt><dd>How fast the damper extends: body control and how quickly the wheel returns.</dd></div>
+      <div><dt>Compression</dt><dd>Resistance to compressing.</dd></div>
+      <div><dt>Low-speed compression</dt><dd>Slow movements: roll, dive, squat and weight transfer.</dd></div>
+      <div><dt>High-speed compression</dt><dd>Fast movements: bumps, curbs and sharp edges.</dd></div>
+    </dl>
+    <ol class="steps small pb">
+      <li><div>Start from the settings on your setup sheet.</div></li>
+      <li><div>Count every adjuster from full firm, the same as the single adjustable. Turn clockwise gently until it stops: that is <span class="mono">0</span>. Count clicks counterclockwise from there.</div></li>
+      <li><div>Never force a knob past its stop at either end.</div></li>
+      <li><div>Set rebound first, then compression.</div></li>
+      <li><div>Change one adjuster, at one end of the car, 1–2 clicks at a time, and drive the same road or track to compare.</div></li>
+      <li><div>Keep left and right the same unless you are corner-tuning on purpose.</div></li>
+      <li><div>Write down every change.</div></li>
+    </ol>
+    <div class="callouts">
+      <div class="callout">{{INFO}}<div><span class="tag">P3 tuning tips</span><p>If the car rolls, dives or squats too much, add low-speed compression. If it feels harsh or skips over bumps and curbs, soften high-speed compression.</p></div></div>
+      <div class="callout">{{INFO}}<div><span class="tag">Note</span><p>Route reservoir hoses so they cannot touch the tire, brakes or exhaust through full travel and full steering lock. Secure them with zip ties.</p></div></div>
+    </div>
+
+    <h3>Remote reservoir quick disconnect</h3>
+    <div class="callouts">
+      <div class="callout warn">{{WARN}}<div><span class="tag">Warning</span><p>Never drive the car or cycle a damper with its reservoir disconnected. This damages the damper internals.</p></div></div>
+      <div class="callout warn">{{WARN}}<div><span class="tag">Warning</span><p>The reservoir is charged with high-pressure nitrogen. Release all pressure before disconnecting.</p></div></div>
+    </div>
+    <div class="split">
+      <div class="card"><div class="k">Disconnecting</div>
+        <ol class="steps small">
+          <li><div>Unload the damper. Put the car on jack stands and disconnect the anti-roll bar so the wheels hang at full droop, or remove the damper from the car.</div></li>
+          <li><div>Release all nitrogen pressure through the Schrader valve on the reservoir. Make sure no pressure is left.</div></li>
+          <li><div>Disconnect the reservoir at the quick disconnect. Keep both sides of the fitting clean.</div></li>
+        </ol></div>
+      <div class="card"><div class="k">Reconnecting</div>
+        <ol class="steps small">
+          <li><div>Check both sides of the fitting are clean, then connect the reservoir fully.</div></li>
+          <li><div>With the damper at full droop, charge the reservoir with nitrogen only (never air) to <strong>180 psi</strong> using a gauge.</div></li>
+          <li><div>The damper is ready to use.</div></li>
+        </ol></div>
+    </div>
+  </section>
+
+  <section class="chapter" id="setup">
+    <div class="ch-head"><span class="ch-num">04</span><h2>Setup data</h2></div>
+    <div class="specs">
+      <div class="spec"><div class="v">0–32</div><div class="l">Adjuster range, clicks from full firm</div></div>
+      <div class="spec"><div class="v">35<small>mm</small></div><div class="l">Minimum bump travel at ride height</div></div>
+      <div class="spec"><div class="v">50<small>mm</small></div><div class="l">Minimum droop at ride height</div></div>
+    </div>
+    <div class="tbl"><table>
+      <tbody>
+        <tr><td>Lower mount limit</td><td>Machined groove on damper body must stay covered</td></tr>
+        <tr><td>Spring rates and recommended damping</td><td>See setup sheet</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Rebound starting points</h3>
+    <p style="color:var(--ink-soft)">Clicks counterclockwise from full firm (0) to full soft (32).</p>
+    <div class="scale" role="img" aria-label="Rebound click scale: Racing Slicks 4 to 12, Track Day 12 to 24, Driving Home 24 to 32">
+      {{SCALE}}
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Use</th><th>Rebound (clicks)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="dot" style="background:var(--ink)"></span>Racing Slicks</td><td class="num">4–12</td></tr>
+        <tr><td><span class="dot" style="background:var(--teal-ink)"></span>Track Day / Performance Driving</td><td class="num">12–24</td></tr>
+        <tr><td><span class="dot" style="background:var(--teal)"></span>Driving Home</td><td class="num">24–32</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callouts">
+      <div class="callout">{{INFO}}<div><span class="tag">Need 0–4 clicks?</span><p>If you need to run 0–4 clicks, contact Shaftworks USA about revalving.</p></div></div>
+    </div>
+
+    <h3>Recommended service</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Use</th><th>Service interval</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Competition vehicles</strong> (optimal, consistent performance)</td><td class="num">Every 2 years</td></tr>
+        <tr><td><strong>Racing</strong></td><td>As often as desired; <span class="mono">2–5 years</span> is expected</td></tr>
+        <tr><td><strong>Street use</strong></td><td>Every <span class="mono">18,000 miles</span> or <span class="mono">5 years</span>, whichever comes first</td></tr>
+      </tbody>
+    </table></div>
+    <p style="color:var(--ink-soft)">Contact Shaftworks USA to schedule a rebuild.</p>
+  </section>
+
+  <section class="chapter" id="tuning">
+    <div class="ch-head"><span class="ch-num">05</span><h2>Tuning guide</h2></div>
+    <p>Fix handling one change at a time, starting with the first item in each row. Understeer means the front slides wide; oversteer means the rear steps out.</p>
+    <div class="tbl"><table>
+      <thead><tr><th style="width:36%">If the car…</th><th>Try (in order)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Understeers on corner entry</strong></td><td>Softer front damping · firmer rear damping · raise rear height · firmer rear bar</td></tr>
+        <tr><td><strong>Understeers mid-corner / exit</strong></td><td>Firmer rear damping · firmer rear bar · stiffer rear spring</td></tr>
+        <tr><td><strong>Oversteers</strong></td><td>Softer rear damping · lower rear height · softer rear bar · stiffer front spring</td></tr>
+        <tr><td><strong>Lacks traction under power</strong></td><td>Softer damping on the drive wheels · softer bar on the drive axle</td></tr>
+        <tr><td><strong>Unsettled under braking</strong></td><td>Softer front damping · firmer rear damping</td></tr>
+        <tr><td><strong>Hits bump stops or bottoms out</strong></td><td>More ride height · firmer damping · stiffer spring (last resort)</td></tr>
+        <tr><td><strong>Feels harsh over bumps</strong></td><td>Soften damping 2 clicks at a time on the harsh end</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callouts" style="margin-top:18px">
+      <div class="callout">{{INFO}}<div><span class="tag">Still not right?</span><p>Contact Shaftworks USA at <strong>sales@shaftworksusa.com</strong> with your settings and a description of the problem.</p></div></div>
+    </div>
+  </section>
+
+  <footer class="back">
+    <p>Shaftworks USA products are subject to continuous improvement and development. These instructions include the most up-to-date information available at the time of issue, but minor updates may occur.</p>
+    <p class="c2">For the latest information or any questions about this document, contact Shaftworks USA.</p>
+    <p class="c3"><span>Bilanx Owners Manual</span><span>Issued 2026-11-07</span></p>
+    <p>© Shaftworks USA. All rights reserved. Any reprinting or unauthorized use without the written permission of Shaftworks USA is prohibited.</p>
+    <p class="c2 addr"><b>Shaftworks USA</b><br>13415 5th St Suite D<br>Chino, CA 91710<br>sales@shaftworksusa.com</p>
+    <div class="c3"><img src="data:image/jpeg;base64,{{LOGO}}" alt="Shaftworks"><a class="web" href="https://www.shaftworksusa.com">www.shaftworksusa.com</a></div>
+  </footer>
+</main>
